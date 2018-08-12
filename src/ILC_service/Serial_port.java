@@ -141,6 +141,7 @@ public class Serial_port {
         try {
             COM_data.serialPort.closePort();
             COM_data.state = 0; //COM порт закрыт
+            COM_thead.stop();
             val = true;
         } catch (SerialPortException ex) {
             System.out.println(ex);
