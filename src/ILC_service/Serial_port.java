@@ -205,6 +205,7 @@ public class Serial_port {
         writeBytes(sendData, payloadLen + 5);
 
         int try_counter = 0;
+        COM_data.packRecive = 0;
 
         try {
             while (COM_data.packRecive != 1) {
