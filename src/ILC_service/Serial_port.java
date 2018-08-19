@@ -32,15 +32,20 @@ public class Serial_port {
     public static class COM_data_с {
         
         public int packRecive = 0; //recive flag
+        public int dataRecive = 0; //recive flag
         public int state  = 0; //Состояние COM порта
         public final int rxMAX_len = 300;
         public byte[] rx_buf = new byte[rxMAX_len]; //Буфер приема;
         public int rx_len = 0;  //Счетчик
         public static SerialPort serialPort;
+        public int Mode;
+        public static int MODE_PROTOCOL = 0;
+        public static int MODE_TRANSPARENT = 1;
     }
     
     public class COM_thead_с extends Thread {
 
+     
         @Override
         public void run() {
             synchronized(COM_data) {
@@ -61,57 +66,95 @@ public class Serial_port {
             @Override
             public void serialEvent(SerialPortEvent event) {
                 if (event.isRXCHAR() && event.getEventValue() > 0) {
-   
+
                     try {
-                        
-                        //Check process
-                        if (COM_data.packRecive == 1)
-                            Thread.sleep(500);
-                        
-                        if (COM_data.packRecive == 1)
-                            return;
-                        
-                        //Получить данные
-                        int len = event.getEventValue();
-                        byte[] data = COM_data.serialPort.readBytes(len);
 
-                        //Счетчик принятых байт
-                        if ((COM_data.rx_len + len) < COM_data.rxMAX_len) {
+                        //Protocol mode
+                        if (COM_data.Mode == COM_data.MODE_PROTOCOL) {
+                            //Check process
+                            if (COM_data.packRecive == 1) {
+                                Thread.sleep(500);
+                            }
 
-                            System.arraycopy(data, 0, COM_data.rx_buf, COM_data.rx_len, len);
-                            COM_data.rx_len += len;
+                            if (COM_data.packRecive == 1) {
+                                return;
+                            }
 
-                        } else {
-                            Arrays.fill(COM_data.rx_buf, (byte) 0);
-                            COM_data.rx_len = 0;
-                            COM_data.serialPort.readBytes();
-                        }
+                            //Получить данные
+                            int len = event.getEventValue();
+                            byte[] data = COM_data.serialPort.readBytes(len);
 
-                        //PArce package
-                        if (COM_data.rx_len > 4) {
+                            //Счетчик принятых байт
+                            if ((COM_data.rx_len + len) < COM_data.rxMAX_len) {
 
-                            //Найти стоповые байты в массиве
-                            for (int i = 0; i < COM_data.rx_len - 1; i++) {
+                                System.arraycopy(data, 0, COM_data.rx_buf, COM_data.rx_len, len);
+                                COM_data.rx_len += len;
 
-                                //Если стоповые байты найдены
-                                if ((COM_data.rx_buf[i] == stop_1) && (COM_data.rx_buf[i + 1] == stop_2)) {
+                            } else {
+                                Arrays.fill(COM_data.rx_buf, (byte) 0);
+                                COM_data.rx_len = 0;
+                                COM_data.serialPort.readBytes();
+                            }
 
-                                    COM_data.packRecive = 1; //Пойман пакет
-                                    COM_data.serialPort.readBytes();
+                            //PArce package
+                            if (COM_data.rx_len > 4) {
+
+                                //Найти стоповые байты в массиве
+                                for (int i = 0; i < COM_data.rx_len - 1; i++) {
+
+                                    //Если стоповые байты найдены
+                                    if ((COM_data.rx_buf[i] == stop_1) && (COM_data.rx_buf[i + 1] == stop_2)) {
+
+                                        COM_data.packRecive = 1; //Пойман пакет
+                                        COM_data.serialPort.readBytes();
+                                    }
                                 }
                             }
                         }
+                        
+                        //Transparent mode
+                        if (COM_data.Mode == COM_data.MODE_TRANSPARENT) {
+                            
+                            //Check process
+                            if (COM_data.dataRecive == 1) {
+                                Thread.sleep(5);
+                            }
+
+                            if (COM_data.dataRecive == 1) {
+                                return;
+                            }
+                            
+                            //Получить данные
+                            int len = event.getEventValue();
+                            byte[] data = COM_data.serialPort.readBytes(len);
+
+                            //Счетчик принятых байт
+                            if ((COM_data.rx_len + len) < COM_data.rxMAX_len) {
+
+                                System.arraycopy(data, 0, COM_data.rx_buf, COM_data.rx_len, len);
+                                COM_data.rx_len += len;
+                                COM_data.serialPort.readBytes();
+                                COM_data.dataRecive = 1;
+
+                            } else {
+                                Arrays.fill(COM_data.rx_buf, (byte) 0);
+                                COM_data.rx_len = 0;
+                                COM_data.serialPort.readBytes();
+                            }
+
+                        }
+
 
                     } catch (SerialPortException ex) {
                         Logger.getLogger(Serial_port.class.getName()).log(Level.SEVERE, null, ex);
                     } catch (InterruptedException ex) {
                         Logger.getLogger(Serial_port.class.getName()).log(Level.SEVERE, null, ex);
                     }
+                    
                 }
 
             }
         }
-
     }
 
     //Открыть COM порт
