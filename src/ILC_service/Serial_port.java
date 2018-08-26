@@ -19,7 +19,7 @@ import jssc.SerialPortException;
  */
 public class Serial_port {
     
-    public byte stop_1 = 0x54;
+    public byte stop_1 = 0x50;
     public byte stop_2 = 0x55;
     
     public COM_data_с COM_data; //Класс данных
@@ -222,7 +222,7 @@ public class Serial_port {
     }
     
     //Send command return ret data len
-    public Buf_class sendCMD(byte cmd, byte[] payload, int payloadLen) {
+    public Buf_class sendCMD(byte cmd, byte[] payload, int payloadLen, int wait) {
 
         Buf_class retVal = new Buf_class();
         byte[] crc_val = new byte[2];
@@ -253,7 +253,7 @@ public class Serial_port {
         try {
             while (COM_data.packRecive != 1) {
 
-                if (try_counter == 200) {
+                if (try_counter == (wait/10)) {
                     break;
                 }
                 try_counter++;

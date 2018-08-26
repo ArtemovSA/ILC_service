@@ -74,8 +74,8 @@ public class ILC_main_form extends javax.swing.JFrame {
     
     public DefaultListModel debug_List_files = new DefaultListModel();
     public DefaultComboBoxModel debug_List_libs = new DefaultComboBoxModel();
-    public String debug_path = "D:\\Sergey\\ILC_project\\Libs\\WM_python\\conversion";
-    public Path debug_path_var = Paths.get(debug_path);  
+    public String debug_path = "C:\\Users\\user\\Desktop\\ILC\\ILC_project\\Libs\\WM_python\\conversion";
+    public Path debug_path_var = Paths.get(debug_path);
     public String debug_main_name;
     public String debug_current_file;
     
@@ -93,7 +93,7 @@ public class ILC_main_form extends javax.swing.JFrame {
     Timer DebugTimer;
     
     //Terminal colors
-    private Color colorMsg_msg = Color.DARK_GRAY;
+    private Color colorMsg_msg = Color.lightGray;
     private Color colorMsg_good = Color.GREEN;
     private Color colorMsg_error = Color.RED;
     private Color colorMsg_debug = Color.lightGray;
@@ -1452,7 +1452,7 @@ public class ILC_main_form extends javax.swing.JFrame {
             Path path = Paths.get(debug_path+"\\"+debug_current_file);
             File file = new File(path.toString());
             Files.deleteIfExists(path);
-            Files.write(path, rSyntaxTextArea_debug.getText().getBytes(), StandardOpenOption.CREATE);
+            Files.write(path, rSyntaxTextArea_debug.getText().getBytes(), StandardOpenOption.CREATE);           
             
             String command = "python pmImgCreator.py -f pmfeatures.py";
             if (jRadioButton_debug_bin.isSelected()){
@@ -1485,7 +1485,7 @@ public class ILC_main_form extends javax.swing.JFrame {
                 command += " "+debug_List_files.get(i);
             }
 
-            String[] commands = {"cmd.exe","/c","cd \""+debug_path+"\"&& "+command};
+            String[] commands = {"cmd.exe","/c","cd \""+debug_path+"\" && "+command};
             Runtime rt = Runtime.getRuntime();
             Process proc = rt.exec(commands);
             proc.waitFor();
@@ -1493,7 +1493,6 @@ public class ILC_main_form extends javax.swing.JFrame {
             OutputStream out = proc.getOutputStream();
             
             out.write(command.getBytes());
-            
             
             String s = null;
             while ((s = stdInput.readLine()) != null) {
@@ -1557,13 +1556,32 @@ public class ILC_main_form extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton_debug_libSaveActionPerformed
 
     private void jButton_flashcopyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_flashcopyActionPerformed
-    //Load scrypt
-     //loadScypt(byte[] script, long len);
-    
+        try {
+            String ScriptName = debug_path + "\\bin\\py_usr.bin";
+            File ScriptFile = new File(ScriptName);
+            byte[] ScriptBin = Files.readAllBytes(ScriptFile.toPath());
+            
+            //Load scrypt
+            if (protocol.loadScypt("main.py", ScriptBin, ScriptBin.length) == true)
+            {
+                terminalAddStr("Скрипт записан!", colorMsg_good);
+            }else{
+                terminalAddStr("Ошибка записи", colorMsg_error);
+            }
+        } catch (IOException ex) {
+            terminalAddStr("Ошибка файла прошивки", colorMsg_error);
+            Logger.getLogger(ILC_main_form.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_jButton_flashcopyActionPerformed
 
     private void jButton_start_codeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_start_codeActionPerformed
-       
+
+        //Load scrypt
+        if (protocol.StartScrypt() == true) {
+            terminalAddStr("Скрипт запущен!", colorMsg_good);
+        } else {
+            terminalAddStr("Ошибка старта", colorMsg_error);
+        }
     }//GEN-LAST:event_jButton_start_codeActionPerformed
 
     private void jButton_debug_addLibrariesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_debug_addLibrariesActionPerformed

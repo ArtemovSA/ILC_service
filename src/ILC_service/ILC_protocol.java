@@ -32,6 +32,11 @@ public class ILC_protocol {
     public static int USBP_MODE_CMD = 0;
     public static int USBP_MODE_DEBUG = 1;
     public static int USBP_MODE_SCRIPT = 2;
+    
+    //Command status
+    public static int USBC_STAT_EXEC_END = 0;
+    public static int USBC_STAT_EXEC_START = 1;
+    public static int USBC_STAT_EXEC_CONT = 2;
 
     //Return values
     public static final int USBC_RET_ERROR = 0;
@@ -44,7 +49,7 @@ public class ILC_protocol {
     //Connection check
     public boolean checkConnection() {
         Buf_class retVal;
-        retVal = port.sendCMD((byte)USBC_CMD_CONN_CHECK, null, 0);
+        retVal = port.sendCMD((byte)USBC_CMD_CONN_CHECK, null, 0, 2000);
         
         if (retVal.retStatus == USBC_RET_OK)
         {
@@ -61,7 +66,7 @@ public class ILC_protocol {
         byte[] modeData = new byte[2];
         modeData[0] = (byte)mode;
         
-        retVal = port.sendCMD((byte)USBC_CMD_CHANGE_MODE, modeData, 1);
+        retVal = port.sendCMD((byte)USBC_CMD_CHANGE_MODE, modeData, 1, 2000);
         
         if (retVal.retStatus == USBC_RET_OK)
         {
@@ -95,7 +100,7 @@ public class ILC_protocol {
         
         System.arraycopy(data, 0, payload, 8, len);
         
-        retVal = port.sendCMD((byte)USBC_CMD_FLASH_WRITE, payload, len+8);
+        retVal = port.sendCMD((byte)USBC_CMD_FLASH_WRITE, payload, len+8, 2000);
         
         return retVal;
     }
@@ -118,49 +123,85 @@ public class ILC_protocol {
         payload[6] = HI(len);
         payload[7] = LO(len);
         
-        retVal = port.sendCMD((byte)USBC_CMD_FLASH_READ, payload, 8);
+        retVal = port.sendCMD((byte)USBC_CMD_FLASH_READ, payload, 8, 2000);
         
         return retVal;
     } 
     
     //Load scrypt
-    public boolean loadScypt(byte[] script, long len)
+    public boolean loadScypt(String name, byte[] script, long len)
     {
         int maxLenPart = 256;
         Buf_class retVal;
-        byte[] partScript = new byte[300];
+        byte[] dataScript = new byte[300];
         int countParts = (int) floor(len/maxLenPart);
         int tailLen = (int) (len - countParts*maxLenPart);
+        byte[] nameBuf = new byte[20];
+        byte[] ctcVal = new byte[2];
+        CRC16_c crc16 = new CRC16_c();
+        
+        //Send info data
+        System.arraycopy(name.getBytes(), 0, nameBuf, 0, name.getBytes().length);
+        crc16.calc(ctcVal, script, len);
+ 
+        dataScript[0] = (byte) USBC_STAT_EXEC_START;
+        dataScript[1] = HI(len);
+        dataScript[2] = LO(len);
+        dataScript[3] = ctcVal[1];
+        dataScript[4] = ctcVal[0];
+        System.arraycopy(nameBuf, 0, dataScript, 5, 20);
+        
+        retVal = port.sendCMD((byte)USBC_CMD_SCRYPT_LOAD, dataScript, 25, 4000);
+        
+        if (retVal.retStatus != USBC_RET_OK)
+            return false;
         
         //Full Parts
-        for(int i=0; i<countParts; i++)
-        {
-            partScript[0] = HI(i);
-            partScript[1] = LO(i);
-            partScript[2] = HI(maxLenPart);
-            partScript[3] = LO(maxLenPart);
+        for (int i = 0; i < countParts; i++) {
             
-            System.arraycopy(script, i*maxLenPart, partScript, 4, maxLenPart);
+            dataScript[0] = (byte) USBC_STAT_EXEC_CONT;
+            dataScript[1] = HI(i);
+            dataScript[2] = LO(i);
+            dataScript[3] = HI(maxLenPart);
+            dataScript[4] = LO(maxLenPart);
             
-            retVal = port.sendCMD((byte)USBC_CMD_SCRYPT_LOAD, partScript, maxLenPart+4);
+            
+            System.arraycopy(script, i*maxLenPart, dataScript, 5, maxLenPart);
+            
+            retVal = port.sendCMD((byte)USBC_CMD_SCRYPT_LOAD, dataScript, maxLenPart+5, 4000);
             
             if (retVal.retStatus != USBC_RET_OK)
                 return false;
         }
 
         //Tail
-        partScript[0] = HI(countParts);
-        partScript[1] = LO(countParts);
-        partScript[2] = HI(tailLen);
-        partScript[3] = LO(tailLen);
+        dataScript[0] = (byte)USBC_STAT_EXEC_END;
+        dataScript[1] = HI(countParts);
+        dataScript[2] = LO(countParts);
+        dataScript[3] = HI(tailLen);
+        dataScript[4] = LO(tailLen);
             
-        System.arraycopy(script, countParts*maxLenPart, partScript, 4, tailLen);
-        retVal = port.sendCMD((byte)USBC_CMD_SCRYPT_LOAD, partScript, tailLen+4);
+        System.arraycopy(script, countParts*maxLenPart, dataScript, 5, tailLen);
+        retVal = port.sendCMD((byte)USBC_CMD_SCRYPT_LOAD, dataScript, tailLen+5, 10000);
         
         if (retVal.retStatus != USBC_RET_OK)
-                return false;
+            return false;
         
         return true;
+    }
+    
+    //Start scrypt
+    public boolean StartScrypt()
+    {
+        Buf_class retVal;
+        retVal = port.sendCMD((byte)USBC_CMD_SCRYPT_START, null, 0, 10000);
+        
+        if (retVal.retStatus == USBC_RET_OK)
+        {
+            return true;
+        }else{
+            return false;
+        }
     }
 
     public ILC_protocol(Serial_port serialport) {

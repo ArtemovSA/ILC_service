@@ -47,7 +47,7 @@ public class CRC16_c {
     };
 
     //Расчет CRC16
-    public void calc(byte[] crc_val, byte[] buf, int len)
+    public void calc(byte[] crc_val, byte[] buf, long len)
     {     
         int crc = 0x0000;
         for (int i = 0; i < len; i++) {
