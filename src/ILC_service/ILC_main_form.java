@@ -74,7 +74,7 @@ public class ILC_main_form extends javax.swing.JFrame {
     
     public DefaultListModel debug_List_files = new DefaultListModel();
     public DefaultComboBoxModel debug_List_libs = new DefaultComboBoxModel();
-    public String debug_path = "D:\\Sergey\\ILC_project\\Libs\\WM_python\\conversion";
+    public String debug_path = "D:\\Sergey\\ILC_project\\Libs\\VM_python\\conversion";
     public Path debug_path_var = Paths.get(debug_path);
     public String debug_main_name;
     public String debug_current_file;
@@ -999,34 +999,33 @@ public class ILC_main_form extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jPanel24, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel_debugLayout.createSequentialGroup()
-                        .addGroup(jPanel_debugLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel_debugLayout.createSequentialGroup()
-                                .addComponent(jButton_debug_compile)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButton_debug_save)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButton_debug_libSave, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButton_debug_open, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButton_flashcopy, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButton_debug_SDcopy))
-                            .addGroup(jPanel_debugLayout.createSequentialGroup()
-                                .addComponent(jLabel7)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jComboBox_debug_libs, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jButton_debug_main)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButton_debug_add_current)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButton9)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButton5)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButton_start_code, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 36, Short.MAX_VALUE)))
+                        .addComponent(jLabel7)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jComboBox_debug_libs, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jButton_debug_main)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton_debug_add_current)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton9)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton5)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton_start_code, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 36, Short.MAX_VALUE))
+                    .addGroup(jPanel_debugLayout.createSequentialGroup()
+                        .addComponent(jButton_debug_compile)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton_debug_save, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton_debug_libSave, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton_debug_open, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton_flashcopy, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton_debug_SDcopy)
+                        .addGap(70, 70, 70)))
                 .addContainerGap())
         );
         jPanel_debugLayout.setVerticalGroup(
@@ -1572,7 +1571,6 @@ public class ILC_main_form extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton_flashcopyActionPerformed
 
     private void jButton_start_codeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_start_codeActionPerformed
-
         //Load scrypt
         if (protocol.StartScrypt() == true) {
             terminalAddStr("Скрипт запущен!", colorMsg_good);
@@ -1604,11 +1602,21 @@ public class ILC_main_form extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton_debug_clearListActionPerformed
 
     private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
-        
+        //Stop scrypt
+        if (protocol.StopScrypt() == true) {
+            terminalAddStr("Скрипт остановлен!", colorMsg_good);
+        } else {
+            terminalAddStr("Ошибка осановки", colorMsg_error);
+        }
     }//GEN-LAST:event_jButton9ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        
+        //Pause scrypt
+        if (protocol.PauseScrypt() == true) {
+            terminalAddStr("Скрипт приостановлен!", colorMsg_good);
+        } else {
+            terminalAddStr("Ошибка приостановки", colorMsg_error);
+        }
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jButton_debug_add_currentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_debug_add_currentActionPerformed

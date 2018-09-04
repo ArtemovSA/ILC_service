@@ -25,8 +25,9 @@ public class ILC_protocol {
     private final int USBC_CMD_SCRYPT_LOAD = 5;  //Load script
     private final int USBC_CMD_SCRYPT_START = 6;  //Start script
     private final int USBC_CMD_SCRYPT_STOP = 7;  //Stop script
-    private final int USBC_CMD_SET_SETTINGS = 8;  //Set settings
-    private final int USBC_CMD_SET_CALIBRATE = 9;  //Set CALIBRATE
+    private final int USBC_CMD_SCRYPT_PAUSE = 8;        //Pause script
+    private final int USBC_CMD_SET_SETTINGS = 9;  //Set settings
+    private final int USBC_CMD_SET_CALIBRATE = 10;  //Set CALIBRATE
 
     //Modes
     public static int USBP_MODE_CMD = 0;
@@ -194,7 +195,35 @@ public class ILC_protocol {
     public boolean StartScrypt()
     {
         Buf_class retVal;
-        retVal = port.sendCMD((byte)USBC_CMD_SCRYPT_START, null, 0, 10000);
+        retVal = port.sendCMD((byte)USBC_CMD_SCRYPT_START, null, 0, 1000);
+        
+        if (retVal.retStatus == USBC_RET_OK)
+        {
+            return true;
+        }else{
+            return false;
+        }
+    }
+    
+    //Stop scrypt
+    public boolean StopScrypt()
+    {
+        Buf_class retVal;
+        retVal = port.sendCMD((byte)USBC_CMD_SCRYPT_STOP, null, 0, 1000);
+        
+        if (retVal.retStatus == USBC_RET_OK)
+        {
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    //Pause scrypt
+    public boolean PauseScrypt()
+    {
+        Buf_class retVal;
+        retVal = port.sendCMD((byte)USBC_CMD_SCRYPT_PAUSE, null, 0, 1000);
         
         if (retVal.retStatus == USBC_RET_OK)
         {
