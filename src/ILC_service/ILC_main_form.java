@@ -21,7 +21,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Properties;
 import java.util.Vector;
@@ -87,7 +86,7 @@ public class ILC_main_form extends javax.swing.JFrame {
     
     //Serial port 
     public Serial_port port;
-    public ILC_protocol protocol;
+    public ILC_device_c deviceILC;
     
     //Debug out timer
     Timer DebugTimer;
@@ -180,9 +179,9 @@ public class ILC_main_form extends javax.swing.JFrame {
         jLabel20 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        jTable_settings = new javax.swing.JTable();
         jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        jButton_readSettings = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jPanel_param_main = new javax.swing.JPanel();
         jScrollPane5 = new javax.swing.JScrollPane();
@@ -564,28 +563,35 @@ public class ILC_main_form extends javax.swing.JFrame {
 
         jTabbedPane_tabs.addTab("Память", jPanel_PD);
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        jTable_settings.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {"Адрес IP устройства (ETH)", "---.---.---.---", "uint8_t", "4"},
-                {"Адрес IP шлюза  (ETH)", "---.---.---.---", "uint8_t", "4"},
-                {"Маска подсети  (ETH)", "---.---.---.---", "Iuint8_t", "4"},
-                {"Домен NTP сервера  (ETH)", "---.---.---.---", "char[]", "40"},
-                {"Адрес IP DNS сервера  (ETH)", "---.---.---.---", "uint8_t", "4"},
-                {"Адрес IP MQTT брокера", "---.---.---.---", "uint8_t", "4"},
-                {"Домен MQTT брокера", "---.---.---.---", "char[]", "40"},
-                {"Адресация MQTT брокера", "0", "uint8_t", "1"},
-                {"MQTT порт", "1883", "uint16_t", "2"},
-                {"MQTT пользователь", "-------", "char[]", "20"},
-                {"MQTT пароль", "-------", "char[]", "20"},
-                {"MQTT QoS", "2", "uint8_t", "1"},
-                {"EMS период передачи", "1000", "uint16_t", "2"},
-                {"EMS режим", "1", "uint8_t", "1"}
+                {"1", "Включить DHCP", "1", "byte", "1"},
+                {"2", "Адрес IP устройства (ETH)", "---.---.---.---", "IP", "4"},
+                {"3", "Адрес IP шлюза  (ETH)", "---.---.---.---", "IP", "4"},
+                {"4", "Маска подсети  (ETH)", "---.---.---.---", "IP", "4"},
+                {"5", "Домен NTP сервера  (ETH)", "-------", "String", "40"},
+                {"6", "Адрес IP DNS сервера  (ETH)", "---.---.---.---", "IP", "4"},
+                {"7", "Адрес IP MQTT брокера", "---.---.---.---", "IP", "4"},
+                {"8", "Домен MQTT брокера", "-------", "String", "40"},
+                {"9", "Адресация MQTT брокера", "0", "byte", "1"},
+                {"10", "MQTT порт", "1883", "word", "2"},
+                {"11", "MQTT пользователь", "-------", "String", "20"},
+                {"12", "MQTT пароль", "-------", "String", "20"},
+                {"13", "MQTT QoS", "2", "byte", "1"},
+                {"14", "EMS период передачи", "1000", "word", "2"},
+                {"15", "Включить EMS режим", "1", "byte", "1"},
+                {"16", "Автостарт VM", "1", "byte", "1"}
             },
             new String [] {
-                "Параметр", "Значение", "Тип", "Длина byte"
+                "ID", "Параметр", "Значение", "Тип", "Длина byte"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(jTable_settings);
+        if (jTable_settings.getColumnModel().getColumnCount() > 0) {
+            jTable_settings.getColumnModel().getColumn(0).setMinWidth(10);
+            jTable_settings.getColumnModel().getColumn(0).setPreferredWidth(25);
+            jTable_settings.getColumnModel().getColumn(0).setMaxWidth(30);
+        }
 
         jButton2.setText("Записать");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
@@ -594,10 +600,10 @@ public class ILC_main_form extends javax.swing.JFrame {
             }
         });
 
-        jButton3.setText("Читать");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        jButton_readSettings.setText("Читать");
+        jButton_readSettings.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                jButton_readSettingsActionPerformed(evt);
             }
         });
 
@@ -615,7 +621,7 @@ public class ILC_main_form extends javax.swing.JFrame {
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(jButton2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton3))
+                        .addComponent(jButton_readSettings))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addGap(0, 0, Short.MAX_VALUE)))
@@ -631,7 +637,7 @@ public class ILC_main_form extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton2)
-                    .addComponent(jButton3))
+                    .addComponent(jButton_readSettings))
                 .addContainerGap())
         );
 
@@ -1211,10 +1217,10 @@ public class ILC_main_form extends javax.swing.JFrame {
             data[i] = (byte) StrHexToLong(burst_table.getValueAt(i, 1).toString());
         }
         
-        Buf_class retVal = protocol.writeNandData(block, page, offset, data, len);
+        Buf_class retVal = deviceILC.writeNandData(block, page, offset, data, len);
         
         if (retVal.recived == true) {
-            if (retVal.retStatus == ILC_protocol.USBC_RET_OK) {
+            if (retVal.retStatus == ILC_device_c.USBC_RET_OK) {
                 terminalAddStr("Write data OK", colorMsg_good);
             } else {
                 terminalAddStr("Write data ERROR", colorMsg_error);
@@ -1262,10 +1268,10 @@ public class ILC_main_form extends javax.swing.JFrame {
             return;
         }
 
-        Buf_class retVal = protocol.readNandData(block, page, offset, len);
+        Buf_class retVal = deviceILC.readNandData(block, page, offset, len);
 
         if (retVal.recived == true) {
-            if (retVal.retStatus == ILC_protocol.USBC_RET_OK) {
+            if (retVal.retStatus == ILC_device_c.USBC_RET_OK) {
                 burst_table.setRowCount(retVal.retLen);
                 for (int i = 0; i < retVal.retLen; i++) {
                     
@@ -1558,7 +1564,7 @@ public class ILC_main_form extends javax.swing.JFrame {
             byte[] ScriptBin = Files.readAllBytes(ScriptFile.toPath());
             
             //Load scrypt
-            if (protocol.loadScypt("main", ScriptBin, ScriptBin.length) == true)
+            if (deviceILC.loadScypt("main", ScriptBin, ScriptBin.length) == true)
             {
                 terminalAddStr("Скрипт записан!", colorMsg_good);
             }else{
@@ -1572,7 +1578,7 @@ public class ILC_main_form extends javax.swing.JFrame {
 
     private void jButton_start_codeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_start_codeActionPerformed
         //Load scrypt
-        if (protocol.StartScrypt() == true) {
+        if (deviceILC.StartScrypt() == true) {
             terminalAddStr("Скрипт запущен!", colorMsg_good);
         } else {
             terminalAddStr("Ошибка старта", colorMsg_error);
@@ -1603,7 +1609,7 @@ public class ILC_main_form extends javax.swing.JFrame {
 
     private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
         //Stop scrypt
-        if (protocol.StopScrypt() == true) {
+        if (deviceILC.StopScrypt() == true) {
             terminalAddStr("Скрипт остановлен!", colorMsg_good);
         } else {
             terminalAddStr("Ошибка осановки", colorMsg_error);
@@ -1612,7 +1618,7 @@ public class ILC_main_form extends javax.swing.JFrame {
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         //Pause scrypt
-        if (protocol.PauseScrypt() == true) {
+        if (deviceILC.PauseScrypt() == true) {
             terminalAddStr("Скрипт приостановлен!", colorMsg_good);
         } else {
             terminalAddStr("Ошибка приостановки", colorMsg_error);
@@ -1652,7 +1658,7 @@ public class ILC_main_form extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jList_debug_filesMouseClicked
     private void jButton_checkConnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_checkConnActionPerformed
-        if (protocol.checkConnection() == true) {
+        if (deviceILC.checkConnection() == true) {
             terminalAddStr("Устройство работает!", colorMsg_good);
         } else {
             terminalAddStr("Нет связи. Возможно устройство находится в режиме отладки!", colorMsg_error);
@@ -1660,7 +1666,7 @@ public class ILC_main_form extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton_checkConnActionPerformed
 
     private void jButton_checkConn1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_checkConn1ActionPerformed
-        if (protocol.changeMode(protocol.USBP_MODE_DEBUG) == true) {
+        if (deviceILC.changeMode(deviceILC.USBP_MODE_DEBUG) == true) {
             terminalAddStr("Режим отладки включен", colorMsg_good);
             port.COM_data.Mode = port.COM_data.MODE_TRANSPARENT;
             DebugTimer.start();
@@ -1705,10 +1711,63 @@ public class ILC_main_form extends javax.swing.JFrame {
         terminalAddStr("Скоро будет реализовано", colorMsg_error);
     }//GEN-LAST:event_jButton2ActionPerformed
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        terminalAddStr("Скоро будет реализовано", colorMsg_error);
-    }//GEN-LAST:event_jButton3ActionPerformed
+    private void jButton_readSettingsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_readSettingsActionPerformed
+        
+        ILC_device_c.ILC_buf_c retBuf;
+        int setID;
+        int reqLen;
 
+        for (int i = 0; i < jTable_settings.getRowCount(); i++) 
+        {
+            setID = Integer.parseInt(jTable_settings.getValueAt(i, 0).toString());
+            retBuf = deviceILC.readSettingParam(setID);
+            
+            if (retBuf.status == ILC_device_c.USBC_RET_OK) {
+
+                reqLen = Integer.parseInt(jTable_settings.getValueAt(i, 4).toString());
+
+                if (reqLen == retBuf.Len) 
+                {
+                    if (jTable_settings.getValueAt(i, 3).toString().equals("IP")) 
+                    {
+                        String ip = String.valueOf(retBuf.Data[0]) + "."
+                                + String.valueOf(retBuf.Data[1]) + "."
+                                + String.valueOf(retBuf.Data[2]) + "."
+                                + String.valueOf(retBuf.Data[3]);
+
+                        jTable_settings.setValueAt(ip, i, 2);
+                    }
+
+                    if (jTable_settings.getValueAt(i, 3).toString().equals("byte")) 
+                    {
+                        String val = String.valueOf(retBuf.Data[0]);
+                        jTable_settings.setValueAt(val, i, 2);
+                    }
+
+                    if (jTable_settings.getValueAt(i, 3).toString().equals("word")) 
+                    {
+                        String val = String.valueOf((retBuf.Data[0] << 8) + retBuf.Data[1]);
+                        jTable_settings.setValueAt(val, i, 2);
+                    }
+
+                    if (jTable_settings.getValueAt(i, 3).toString().equals("String")) 
+                    {
+                        String str = new String(retBuf.Data);
+                        jTable_settings.setValueAt(str, i, 2);
+                    }
+
+                    terminalAddStr(jTable_settings.getValueAt(i, 1).toString() + " получено", colorMsg_good);
+                } else {
+                    terminalAddStr(jTable_settings.getValueAt(i, 1).toString() + " ошибка", colorMsg_error);
+                }
+            } else {
+                terminalAddStr(jTable_settings.getValueAt(i, 1).toString() + " ошибка длины пакета", colorMsg_error);
+            }
+        }
+
+    }//GEN-LAST:event_jButton_readSettingsActionPerformed
+
+    
     /**
      * @param args the command line arguments
      */
@@ -1750,7 +1809,6 @@ public class ILC_main_form extends javax.swing.JFrame {
     private javax.swing.ButtonGroup buttonGroup_debug_lib;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton9;
     private javax.swing.JButton jButton_burst_clear;
@@ -1774,6 +1832,7 @@ public class ILC_main_form extends javax.swing.JFrame {
     private javax.swing.JButton jButton_debug_save;
     private javax.swing.JButton jButton_delete_set;
     private javax.swing.JButton jButton_flashcopy;
+    private javax.swing.JButton jButton_readSettings;
     private javax.swing.JButton jButton_read_main_params;
     private javax.swing.JButton jButton_safe_settings;
     private javax.swing.JButton jButton_settings_open;
@@ -1827,9 +1886,9 @@ public class ILC_main_form extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JTabbedPane jTabbedPane_tabs;
-    private javax.swing.JTable jTable1;
     private javax.swing.JTable jTable_burst;
     private javax.swing.JTable jTable_main_params;
+    private javax.swing.JTable jTable_settings;
     private javax.swing.JTextField jTextField_block;
     private javax.swing.JTextField jTextField_count_bytes;
     private javax.swing.JTextField jTextField_offset;
@@ -1852,7 +1911,7 @@ public class ILC_main_form extends javax.swing.JFrame {
 
         //Port init
         port = new Serial_port();
-        protocol = new ILC_protocol(port);
+        deviceILC = new ILC_device_c(port);
 
         //Инициализация списка COM портов
         String[] portNames = SerialPortList.getPortNames();

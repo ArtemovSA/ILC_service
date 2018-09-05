@@ -12,7 +12,7 @@ import static java.lang.Math.floor;
  *
  * @author user
  */
-public class ILC_protocol {
+public class ILC_device_c {
 
     public Serial_port port;
     
@@ -25,9 +25,13 @@ public class ILC_protocol {
     private final int USBC_CMD_SCRYPT_LOAD = 5;  //Load script
     private final int USBC_CMD_SCRYPT_START = 6;  //Start script
     private final int USBC_CMD_SCRYPT_STOP = 7;  //Stop script
-    private final int USBC_CMD_SCRYPT_PAUSE = 8;        //Pause script
+    private final int USBC_CMD_SCRYPT_PAUSE = 8;  //Pause script
     private final int USBC_CMD_SET_SETTINGS = 9;  //Set settings
-    private final int USBC_CMD_SET_CALIBRATE = 10;  //Set CALIBRATE
+    private final int USBC_CMD_GET_SETTINGS = 10;   //Get settings
+    private final int USBC_CMD_ASSIGN_SETTINGS = 11; //Assign settings
+    private final int USBC_CMD_DEFAULT_SETTINGS = 12; //Set default settings
+    private final int USBC_CMD_SET_CALIBRATE = 13;  //Set CALIBRATE
+    private final int USBC_CMD_SYSTEM_RESET = 14; //Reset
 
     //Modes
     public static int USBP_MODE_CMD = 0;
@@ -46,6 +50,24 @@ public class ILC_protocol {
     public static final int USBC_RET_OVERF = 3;
     public static final int USBC_RET_NANS = 4;
     public static final int USBC_RET_NEXIST = 5;        
+
+    //Settings ID
+    public static final int DC_SET_NET_DHCP_EN = 1;
+    public static final int DC_SET_NET_DEV_IP = 2;
+    public static final int DC_SET_NET_GW_IP = 3;
+    public static final int DC_SET_NET_MASK = 4;
+    public static final int DC_SET_NTP_DOMEN = 6;
+    public static final int DC_SET_NET_DNS_IP = 7;
+    public static final int DC_SET_MQTT_IP = 8;
+    public static final int DC_SET_MQTT_DOMEN = 9;
+    public static final int DC_SET_MQTT_CH = 10;
+    public static final int DC_SET_MQTT_PORT = 11;
+    public static final int DC_SET_MQTT_USER = 12;
+    public static final int DC_SET_MQTT_PASS = 13;
+    public static final int DC_SET_MQTT_QOS = 14;
+    public static final int DC_SET_EMS_PERIOD = 15;
+    public static final int DC_SET_EMS_AUTO_SEND = 16;
+    public static final int DC_SET_VM_AUTO_START = 17;
 
     //Connection check
     public boolean checkConnection() {
@@ -78,9 +100,10 @@ public class ILC_protocol {
     }
     
     //Return buffer
-    public class buf_c {
+    public class ILC_buf_c {
         public byte[] Data = new byte[300];
         public int Len = 0;
+        public int status;
     }
     //Write NAND data
     public Buf_class writeNandData(int block, int page, int offset, byte[] data, int len)
@@ -232,8 +255,48 @@ public class ILC_protocol {
             return false;
         }
     }
+    
+    public ILC_buf_c readSettingParam(int setID)
+    {
+        ILC_buf_c retBuf = new ILC_buf_c();
+        Buf_class retVal;
+        byte[] payload = new byte[10];
 
-    public ILC_protocol(Serial_port serialport) {
+        payload[0] = (byte) setID;
+     
+        retVal = port.sendCMD((byte)USBC_CMD_GET_SETTINGS, payload, 1, 1000);
+
+        retBuf.status = retVal.retStatus;
+        
+        if (retVal.retStatus == USBC_RET_OK)
+        {
+            retBuf.Len = retVal.retData[0];
+            System.arraycopy(retVal.retData, 1, retBuf.Data, 0, retBuf.Len);
+        }
+
+        return  retBuf;
+    }
+    
+    public boolean writeSettingParam(int setID, byte[] data, int len)
+    {
+        byte[] payload = new byte[10];
+        Buf_class retVal;
+        
+        payload[0] = (byte) setID;
+        payload[1] = (byte)len;
+        System.arraycopy(data, 0, payload, 2, len);
+        
+        retVal = port.sendCMD((byte)USBC_CMD_SET_SETTINGS, payload, len+2, 2000);
+        
+        if (retVal.retStatus == USBC_RET_OK)
+        {
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    public ILC_device_c(Serial_port serialport) {
         port = serialport;
     }
 
@@ -245,4 +308,5 @@ public class ILC_protocol {
     public byte LO(long value) {
        return  (byte) (value & 0x00FF) ;
     }
+    
 }

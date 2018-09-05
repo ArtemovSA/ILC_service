@@ -24,6 +24,7 @@ public class Serial_port {
     
     public COM_data_с COM_data; //Класс данных
     public COM_thead_с COM_thead; //Поток работы с портом
+    public boolean runThread = true;
      
     Serial_port(){
         COM_data = new COM_data_с();
@@ -55,9 +56,14 @@ public class Serial_port {
                     Logger.getLogger(ILC_main_form.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
-            while (true) {
+            while (runThread) {
 
             }
+        }
+        
+        public void stopRunThread()
+        {
+            runThread = false;
         }
 
         //Событие приема данных
@@ -184,7 +190,9 @@ public class Serial_port {
         try {
             COM_data.serialPort.closePort();
             COM_data.state = 0; //COM порт закрыт
-            COM_thead.stop();
+            //COM_thead.stop();
+            COM_thead.stopRunThread();
+            COM_thead = null;
             val = true;
         } catch (SerialPortException ex) {
             System.out.println(ex);

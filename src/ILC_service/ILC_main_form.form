@@ -592,7 +592,7 @@
                               <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                               <Component id="jButton2" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="jButton3" min="-2" max="-2" attributes="0"/>
+                              <Component id="jButton_readSettings" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
                               <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
@@ -613,7 +613,7 @@
                       <EmptySpace max="32767" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="jButton2" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jButton3" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jButton_readSettings" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
@@ -628,11 +628,30 @@
 
               <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
               <SubComponents>
-                <Component class="javax.swing.JTable" name="jTable1">
+                <Component class="javax.swing.JTable" name="jTable_settings">
                   <Properties>
                     <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-                      <Table columnCount="4" rowCount="14">
+                      <Table columnCount="5" rowCount="16">
+                        <Column editable="true" title="ID" type="java.lang.Object">
+                          <Data value="1"/>
+                          <Data value="2"/>
+                          <Data value="3"/>
+                          <Data value="4"/>
+                          <Data value="5"/>
+                          <Data value="6"/>
+                          <Data value="7"/>
+                          <Data value="8"/>
+                          <Data value="9"/>
+                          <Data value="10"/>
+                          <Data value="11"/>
+                          <Data value="12"/>
+                          <Data value="13"/>
+                          <Data value="14"/>
+                          <Data value="15"/>
+                          <Data value="16"/>
+                        </Column>
                         <Column editable="true" title="&#x41f;&#x430;&#x440;&#x430;&#x43c;&#x435;&#x442;&#x440;" type="java.lang.Object">
+                          <Data value="&#x412;&#x43a;&#x43b;&#x44e;&#x447;&#x438;&#x442;&#x44c; DHCP"/>
                           <Data value="&#x410;&#x434;&#x440;&#x435;&#x441; IP &#x443;&#x441;&#x442;&#x440;&#x43e;&#x439;&#x441;&#x442;&#x432;&#x430; (ETH)"/>
                           <Data value="&#x410;&#x434;&#x440;&#x435;&#x441; IP &#x448;&#x43b;&#x44e;&#x437;&#x430;  (ETH)"/>
                           <Data value="&#x41c;&#x430;&#x441;&#x43a;&#x430; &#x43f;&#x43e;&#x434;&#x441;&#x435;&#x442;&#x438;  (ETH)"/>
@@ -646,16 +665,18 @@
                           <Data value="MQTT &#x43f;&#x430;&#x440;&#x43e;&#x43b;&#x44c;"/>
                           <Data value="MQTT QoS"/>
                           <Data value="EMS &#x43f;&#x435;&#x440;&#x438;&#x43e;&#x434; &#x43f;&#x435;&#x440;&#x435;&#x434;&#x430;&#x447;&#x438;"/>
-                          <Data value="EMS &#x440;&#x435;&#x436;&#x438;&#x43c;"/>
+                          <Data value="&#x412;&#x43a;&#x43b;&#x44e;&#x447;&#x438;&#x442;&#x44c; EMS &#x440;&#x435;&#x436;&#x438;&#x43c;"/>
+                          <Data value="&#x410;&#x432;&#x442;&#x43e;&#x441;&#x442;&#x430;&#x440;&#x442; VM"/>
                         </Column>
                         <Column editable="true" title="&#x417;&#x43d;&#x430;&#x447;&#x435;&#x43d;&#x438;&#x435;" type="java.lang.Object">
+                          <Data value="1"/>
                           <Data value="---.---.---.---"/>
                           <Data value="---.---.---.---"/>
                           <Data value="---.---.---.---"/>
+                          <Data value="-------"/>
                           <Data value="---.---.---.---"/>
                           <Data value="---.---.---.---"/>
-                          <Data value="---.---.---.---"/>
-                          <Data value="---.---.---.---"/>
+                          <Data value="-------"/>
                           <Data value="0"/>
                           <Data value="1883"/>
                           <Data value="-------"/>
@@ -663,24 +684,28 @@
                           <Data value="2"/>
                           <Data value="1000"/>
                           <Data value="1"/>
+                          <Data value="1"/>
                         </Column>
                         <Column editable="true" title="&#x422;&#x438;&#x43f;" type="java.lang.Object">
-                          <Data value="uint8_t"/>
-                          <Data value="uint8_t"/>
-                          <Data value="Iuint8_t"/>
-                          <Data value="char[]"/>
-                          <Data value="uint8_t"/>
-                          <Data value="uint8_t"/>
-                          <Data value="char[]"/>
-                          <Data value="uint8_t"/>
-                          <Data value="uint16_t"/>
-                          <Data value="char[]"/>
-                          <Data value="char[]"/>
-                          <Data value="uint8_t"/>
-                          <Data value="uint16_t"/>
-                          <Data value="uint8_t"/>
+                          <Data value="byte"/>
+                          <Data value="IP"/>
+                          <Data value="IP"/>
+                          <Data value="IP"/>
+                          <Data value="String"/>
+                          <Data value="IP"/>
+                          <Data value="IP"/>
+                          <Data value="String"/>
+                          <Data value="byte"/>
+                          <Data value="word"/>
+                          <Data value="String"/>
+                          <Data value="String"/>
+                          <Data value="byte"/>
+                          <Data value="word"/>
+                          <Data value="byte"/>
+                          <Data value="byte"/>
                         </Column>
                         <Column editable="true" title="&#x414;&#x43b;&#x438;&#x43d;&#x430; byte" type="java.lang.Object">
+                          <Data value="1"/>
                           <Data value="4"/>
                           <Data value="4"/>
                           <Data value="4"/>
@@ -694,12 +719,18 @@
                           <Data value="20"/>
                           <Data value="1"/>
                           <Data value="2"/>
+                          <Data value="1"/>
                           <Data value="1"/>
                         </Column>
                       </Table>
                     </Property>
                     <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
                       <TableColumnModel selectionModel="0">
+                        <Column maxWidth="30" minWidth="10" prefWidth="25" resizable="true">
+                          <Title/>
+                          <Editor/>
+                          <Renderer/>
+                        </Column>
                         <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
                           <Title/>
                           <Editor/>
@@ -737,12 +768,12 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton2ActionPerformed"/>
               </Events>
             </Component>
-            <Component class="javax.swing.JButton" name="jButton3">
+            <Component class="javax.swing.JButton" name="jButton_readSettings">
               <Properties>
                 <Property name="text" type="java.lang.String" value="&#x427;&#x438;&#x442;&#x430;&#x442;&#x44c;"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton3ActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton_readSettingsActionPerformed"/>
               </Events>
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel1">
