@@ -5,6 +5,8 @@
  */
 package ILC_service;
 
+import com.jtattoo.plaf.fast.FastLookAndFeel;
+import java.util.Properties;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
@@ -20,8 +22,13 @@ public class ILC_sevice {
     public static void main(String[] args) {
         
         //Установка темы оформления
+        Properties p = new Properties();
+        p.put("windowDecoration", "off");
+
         try {
-          UIManager.setLookAndFeel("com.bulenkov.darcula.DarculaLaf");//new TinyLookAndFeel());
+            FastLookAndFeel.setCurrentTheme(p);
+            UIManager.setLookAndFeel("com.jtattoo.plaf.fast.FastLookAndFeel");
+          //UIManager.setLookAndFeel("com.bulenkov.darcula.DarculaLaf");//new TinyLookAndFeel());
         } catch (UnsupportedLookAndFeelException e) {
             System.err.println("Can't use the specified look and feel on this platform.");
         } catch (Exception e) {

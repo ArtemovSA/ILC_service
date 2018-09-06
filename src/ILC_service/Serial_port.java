@@ -261,11 +261,11 @@ public class Serial_port {
         try {
             while (COM_data.packRecive != 1) {
 
-                if (try_counter == (wait/10)) {
+                if (try_counter == (wait/100)) {
                     break;
                 }
                 try_counter++;
-                Thread.sleep(10);
+                Thread.sleep(100);
 
             }
         } catch (InterruptedException ex) {

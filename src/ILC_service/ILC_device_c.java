@@ -52,10 +52,11 @@ public class ILC_device_c {
     public static final int USBC_RET_NEXIST = 5;        
 
     //Settings ID
-    public static final int DC_SET_NET_DHCP_EN = 1;
-    public static final int DC_SET_NET_DEV_IP = 2;
-    public static final int DC_SET_NET_GW_IP = 3;
-    public static final int DC_SET_NET_MASK = 4;
+    public static final int DC_SET_NET_MAC_ADR = 1;
+    public static final int DC_SET_NET_DHCP_EN = 2;
+    public static final int DC_SET_NET_DEV_IP = 3;
+    public static final int DC_SET_NET_GW_IP = 4;
+    public static final int DC_SET_NET_MASK = 5;
     public static final int DC_SET_NTP_DOMEN = 6;
     public static final int DC_SET_NET_DNS_IP = 7;
     public static final int DC_SET_MQTT_IP = 8;
@@ -150,7 +151,21 @@ public class ILC_device_c {
         retVal = port.sendCMD((byte)USBC_CMD_FLASH_READ, payload, 8, 2000);
         
         return retVal;
-    } 
+    }
+    
+    //Reset device
+    public boolean resetDevice()
+    {
+        Buf_class retVal;
+        retVal = port.sendCMD((byte)USBC_CMD_SYSTEM_RESET, null, 0, 2000);
+        
+        if (retVal.retStatus == USBC_RET_OK)
+        {
+            return true;
+        }else{
+            return false;
+        }
+    }
     
     //Load scrypt
     public boolean loadScypt(String name, byte[] script, long len)
@@ -260,7 +275,7 @@ public class ILC_device_c {
     {
         ILC_buf_c retBuf = new ILC_buf_c();
         Buf_class retVal;
-        byte[] payload = new byte[10];
+        byte[] payload = new byte[20];
 
         payload[0] = (byte) setID;
      
@@ -279,14 +294,42 @@ public class ILC_device_c {
     
     public boolean writeSettingParam(int setID, byte[] data, int len)
     {
-        byte[] payload = new byte[10];
+        byte[] payload = new byte[300];
         Buf_class retVal;
         
         payload[0] = (byte) setID;
         payload[1] = (byte)len;
         System.arraycopy(data, 0, payload, 2, len);
         
-        retVal = port.sendCMD((byte)USBC_CMD_SET_SETTINGS, payload, len+2, 2000);
+        retVal = port.sendCMD((byte)USBC_CMD_SET_SETTINGS, payload, len+2, 1000);
+        
+        if (retVal.retStatus == USBC_RET_OK)
+        {
+            return true;
+        }else{
+            return false;
+        }
+    }
+    
+    //Assign settings
+    public boolean assignSettings()
+    {
+        Buf_class retVal;
+        retVal = port.sendCMD((byte)USBC_CMD_ASSIGN_SETTINGS, null, 0, 2000);
+        
+        if (retVal.retStatus == USBC_RET_OK)
+        {
+            return true;
+        }else{
+            return false;
+        }
+    }
+    
+    //Reset settings
+    public boolean resetSettings()
+    {
+        Buf_class retVal;
+        retVal = port.sendCMD((byte)USBC_CMD_DEFAULT_SETTINGS, null, 0, 2000);
         
         if (retVal.retStatus == USBC_RET_OK)
         {
