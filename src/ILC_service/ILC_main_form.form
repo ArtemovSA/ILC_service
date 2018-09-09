@@ -558,7 +558,7 @@
                 <Component class="javax.swing.JTable" name="jTable_settings">
                   <Properties>
                     <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-                      <Table columnCount="5" rowCount="17">
+                      <Table columnCount="5" rowCount="18">
                         <Column editable="true" title="ID" type="java.lang.Object">
                           <Data value="1"/>
                           <Data value="2"/>
@@ -577,6 +577,7 @@
                           <Data value="15"/>
                           <Data value="16"/>
                           <Data value="17"/>
+                          <Data value="18"/>
                         </Column>
                         <Column editable="true" title="&#x41f;&#x430;&#x440;&#x430;&#x43c;&#x435;&#x442;&#x440;" type="java.lang.Object">
                           <Data value="MAC &#x430;&#x434;&#x440;&#x435;&#x441;"/>
@@ -595,6 +596,7 @@
                           <Data value="MQTT QoS"/>
                           <Data value="&#x41f;&#x435;&#x440;&#x438;&#x43e;&#x434; &#x43f;&#x430;&#x43a;&#x435;&#x442;&#x430; EMS"/>
                           <Data value="&#x420;&#x435;&#x436;&#x438;&#x43c; &#x43f;&#x435;&#x440;&#x435;&#x434;&#x430;&#x447;&#x438; EMS"/>
+                          <Data value="&#x412;&#x43a;&#x43b;&#x44e;&#x447;&#x438;&#x442;&#x44c; &#x43a;&#x430;&#x43d;&#x430;&#x43b;&#x44b; EMS"/>
                           <Data value="&#x410;&#x432;&#x442;&#x43e;&#x441;&#x442;&#x430;&#x440;&#x442; PyVM"/>
                         </Column>
                         <Column editable="true" title="&#x417;&#x43d;&#x430;&#x447;&#x435;&#x43d;&#x438;&#x435;" type="java.lang.Object">
@@ -611,6 +613,7 @@
                           <Data value="0"/>
                           <Data value="-------"/>
                           <Data value="-------"/>
+                          <Data value="0"/>
                           <Data value="0"/>
                           <Data value="0"/>
                           <Data value="0"/>
@@ -634,6 +637,7 @@
                           <Data value="word"/>
                           <Data value="byte"/>
                           <Data value="byte"/>
+                          <Data value="byte"/>
                         </Column>
                         <Column editable="true" title="&#x414;&#x43b;&#x438;&#x43d;&#x430; byte" type="java.lang.Object">
                           <Data value="6"/>
@@ -651,6 +655,7 @@
                           <Data value="20"/>
                           <Data value="1"/>
                           <Data value="2"/>
+                          <Data value="1"/>
                           <Data value="1"/>
                           <Data value="1"/>
                         </Column>
@@ -929,7 +934,6 @@
                                       <Component id="jButton_debug_libSave" min="-2" pref="122" max="-2" attributes="0"/>
                                       <EmptySpace max="-2" attributes="0"/>
                                       <Component id="jButton_debug_open" min="-2" pref="129" max="-2" attributes="0"/>
-                                      <EmptySpace max="32767" attributes="0"/>
                                   </Group>
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>

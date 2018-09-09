@@ -95,10 +95,10 @@ public class ILC_main_form extends javax.swing.JFrame {
     Timer DebugTimer;
     
     //Terminal colors
-    private Color colorMsg_msg = Color.lightGray;
+    private Color colorMsg_msg = Color.black;
     private Color colorMsg_good = Color.BLUE;
     private Color colorMsg_error = Color.RED;
-    private Color colorMsg_debug = Color.lightGray;
+    private Color colorMsg_debug = Color.black;
             
     /**
      * Creates new form ILC_main_form
@@ -544,7 +544,8 @@ public class ILC_main_form extends javax.swing.JFrame {
                 {"14", "MQTT QoS", "0", "byte", "1"},
                 {"15", "Период пакета EMS", "0", "word", "2"},
                 {"16", "Режим передачи EMS", "0", "byte", "1"},
-                {"17", "Автостарт PyVM", "0", "byte", "1"}
+                {"17", "Включить каналы EMS", "0", "byte", "1"},
+                {"18", "Автостарт PyVM", "0", "byte", "1"}
             },
             new String [] {
                 "ID", "Параметр", "Значение", "Тип", "Длина byte"
@@ -1028,8 +1029,7 @@ public class ILC_main_form extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jButton_debug_libSave, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButton_debug_open, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                                .addComponent(jButton_debug_open, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jPanel24, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(14, 14, 14))))

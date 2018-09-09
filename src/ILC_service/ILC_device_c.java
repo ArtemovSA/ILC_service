@@ -68,7 +68,8 @@ public class ILC_device_c {
     public static final int DC_SET_MQTT_QOS = 14;
     public static final int DC_SET_EMS_PERIOD = 15;
     public static final int DC_SET_EMS_AUTO_SEND = 16;
-    public static final int DC_SET_VM_AUTO_START = 17;
+    public static final int DC_SET_EMS_CHANNEL_EN = 17;
+    public static final int DC_SET_VM_AUTO_START = 18;
 
     //Connection check
     public boolean checkConnection() {
