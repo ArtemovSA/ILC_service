@@ -32,7 +32,9 @@ public class ILC_device_c {
     private final int USBC_CMD_DEFAULT_SETTINGS = 12; //Set default settings
     private final int USBC_CMD_SET_CALIBRATE = 13;  //Set CALIBRATE
     private final int USBC_CMD_SYSTEM_RESET = 14; //Reset
-
+    private final int USBC_CMD_SET_CALIBR = 15;          //Set calibratings data
+    private final int USBC_CMD_GET_CALIBR = 16;          //Get calibrate data
+    private final int USBC_CMD_GET_VALUES = 17;     //Get values
     //Modes
     public static int USBP_MODE_CMD = 0;
     public static int USBP_MODE_DEBUG = 1;
@@ -338,6 +340,29 @@ public class ILC_device_c {
         }else{
             return false;
         }
+    }
+    
+    public ILC_buf_c readValues(int valID, int channel, int line)
+    {
+        ILC_buf_c retBuf = new ILC_buf_c();
+        Buf_class retVal;
+        byte[] payload = new byte[20];
+
+        payload[0] = (byte) valID;
+        payload[1] = (byte) channel;
+        payload[2] = (byte) line;
+     
+        retVal = port.sendCMD((byte)USBC_CMD_GET_VALUES, payload, 3, 1000);
+
+        retBuf.status = retVal.retStatus;
+        
+        if (retVal.retStatus == USBC_RET_OK)
+        {
+            retBuf.Len = retVal.retData[0];
+            System.arraycopy(retVal.retData, 1, retBuf.Data, 0, retBuf.Len);
+        }
+
+        return  retBuf;
     }
 
     public ILC_device_c(Serial_port serialport) {
