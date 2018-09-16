@@ -7,6 +7,7 @@ package ILC_service;
 
 import ILC_service.Serial_port.Buf_class;
 import static java.lang.Math.floor;
+import java.nio.ByteBuffer;
 
 /**
  *
@@ -30,11 +31,10 @@ public class ILC_device_c {
     private final int USBC_CMD_GET_SETTINGS = 10;   //Get settings
     private final int USBC_CMD_ASSIGN_SETTINGS = 11; //Assign settings
     private final int USBC_CMD_DEFAULT_SETTINGS = 12; //Set default settings
-    private final int USBC_CMD_SET_CALIBRATE = 13;  //Set CALIBRATE
-    private final int USBC_CMD_SYSTEM_RESET = 14; //Reset
-    private final int USBC_CMD_SET_CALIBR = 15;          //Set calibratings data
-    private final int USBC_CMD_GET_CALIBR = 16;          //Get calibrate data
-    private final int USBC_CMD_GET_VALUES = 17;     //Get values
+    private final int USBC_CMD_SYSTEM_RESET = 13; //Reset
+    private final int USBC_CMD_SET_CALIBR = 14;          //Set calibratings data
+    private final int USBC_CMD_GET_CALIBR = 15;          //Get calibrate data
+    private final int USBC_CMD_GET_VALUES = 16;     //Get values
     //Modes
     public static int USBP_MODE_CMD = 0;
     public static int USBP_MODE_DEBUG = 1;
@@ -50,9 +50,11 @@ public class ILC_device_c {
     public static final int USBC_RET_OK = 1;
     public static final int USBC_RET_ADDR_ERR = 2;
     public static final int USBC_RET_OVERF = 3;
-    public static final int USBC_RET_NANS = 4;
-    public static final int USBC_RET_NEXIST = 5;        
-
+    public static final int USBC_RET_NAVAL = 4;
+    public static final int USBC_RET_NANS = 5;
+    public static final int USBC_RET_NEXIST = 6;        
+    public static final int USBC_RET_ALREADY = 7;
+            
     //Settings ID
     public static final int DC_SET_NET_MAC_ADR = 1;
     public static final int DC_SET_NET_DHCP_EN = 2;
@@ -352,7 +354,7 @@ public class ILC_device_c {
         payload[1] = (byte) channel;
         payload[2] = (byte) line;
      
-        retVal = port.sendCMD((byte)USBC_CMD_GET_VALUES, payload, 3, 1000);
+        retVal = port.sendCMD((byte)USBC_CMD_GET_VALUES, payload, 3, 500);
 
         retBuf.status = retVal.retStatus;
         
@@ -365,11 +367,51 @@ public class ILC_device_c {
         return  retBuf;
     }
 
+    public ILC_buf_c readCal(int calID, int channel, int line)
+    {
+        ILC_buf_c retBuf = new ILC_buf_c();
+        Buf_class retVal;
+        byte[] payload = new byte[20];
+
+        payload[0] = (byte) calID;
+        payload[1] = (byte) channel;
+        payload[2] = (byte) line;
+     
+        retVal = port.sendCMD((byte)USBC_CMD_GET_CALIBR, payload, 3, 500);
+
+        retBuf.status = retVal.retStatus;
+        
+        if (retVal.retStatus == USBC_RET_OK)
+        {
+            retBuf.Len = retVal.retData[0];
+            System.arraycopy(retVal.retData, 1, retBuf.Data, 0, retBuf.Len);
+        }
+
+        return  retBuf;
+    }
+    
     public ILC_device_c(Serial_port serialport) {
         port = serialport;
     }
 
-    
+    public byte[] longToBytes(long l) {
+        byte[] result = new byte[8];
+        for (int i = 7; i >= 0; i--) {
+            result[i] = (byte) (l & 0xFF);
+            l >>= 8;
+        }
+        return result;
+    }
+
+    public long bytesToLong(byte[] bytes) {
+        long result = 0;
+        for (int i = 0; i < 8; i++) {
+            result <<= 8;
+            result |= (bytes[i] & 0xFF);
+        }
+        return result;
+    }
+
     public byte HI(long value) {
        return  (byte) ((value & 0xFF00) >> 8);
     }
