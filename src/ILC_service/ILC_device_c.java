@@ -34,7 +34,8 @@ public class ILC_device_c {
     private final int USBC_CMD_SYSTEM_RESET = 13; //Reset
     private final int USBC_CMD_SET_CALIBR = 14;          //Set calibratings data
     private final int USBC_CMD_GET_CALIBR = 15;          //Get calibrate data
-    private final int USBC_CMD_GET_VALUES = 16;     //Get values
+    private final int USBC_CMD_ASSIGN_CALIBR = 16;          //Assign calibr
+    private final int USBC_CMD_GET_VALUES = 17;     //Get values
     //Modes
     public static int USBP_MODE_CMD = 0;
     public static int USBP_MODE_DEBUG = 1;
@@ -354,7 +355,7 @@ public class ILC_device_c {
         payload[1] = (byte) channel;
         payload[2] = (byte) line;
      
-        retVal = port.sendCMD((byte)USBC_CMD_GET_VALUES, payload, 3, 500);
+        retVal = port.sendCMD((byte)USBC_CMD_GET_VALUES, payload, 3, 700);
 
         retBuf.status = retVal.retStatus;
         
@@ -377,7 +378,7 @@ public class ILC_device_c {
         payload[1] = (byte) channel;
         payload[2] = (byte) line;
      
-        retVal = port.sendCMD((byte)USBC_CMD_GET_CALIBR, payload, 3, 500);
+        retVal = port.sendCMD((byte)USBC_CMD_GET_CALIBR, payload, 3, 700);
 
         retBuf.status = retVal.retStatus;
         
@@ -388,6 +389,41 @@ public class ILC_device_c {
         }
 
         return  retBuf;
+    }
+    
+    public boolean writeCal(int calID, int channel, int line, byte[] data)
+    {
+        byte[] payload = new byte[300];
+        Buf_class retVal;
+        
+        payload[0] = (byte) calID;
+        payload[1] = (byte) channel;
+        payload[2] = (byte) line;
+        
+        System.arraycopy(data, 0, payload, 2, 4);
+        
+        retVal = port.sendCMD((byte)USBC_CMD_SET_CALIBR, payload, 6, 1000);
+        
+        if (retVal.retStatus == USBC_RET_OK)
+        {
+            return true;
+        }else{
+            return false;
+        }
+    }
+    
+    //Assign calibr
+    public boolean assignCalibr()
+    {
+        Buf_class retVal;
+        retVal = port.sendCMD((byte)USBC_CMD_ASSIGN_CALIBR, null, 0, 2000);
+        
+        if (retVal.retStatus == USBC_RET_OK)
+        {
+            return true;
+        }else{
+            return false;
+        }
     }
     
     public ILC_device_c(Serial_port serialport) {
@@ -403,11 +439,11 @@ public class ILC_device_c {
         return result;
     }
 
-    public long bytesToLong(byte[] bytes) {
-        long result = 0;
-        for (int i = 0; i < 8; i++) {
+    public int bytesToInt(byte[] bytes) {
+        int result = 0;
+        for (int i = 0; i < 4; i++) {
             result <<= 8;
-            result |= (bytes[i] & 0xFF);
+            result |= (bytes[3-i] & 0xFF);
         }
         return result;
     }

@@ -73,6 +73,7 @@ public class ILC_main_form extends javax.swing.JFrame {
     public DefaultTableModel calibratePhase_table;
     public DefaultTableModel calibrateMain_table;
     public DefaultTableModel flash_table;
+    public JTable SelTable = null;
     
     String sFileName = "ILC.prop";
     public static Properties props = new Properties(); //Переменная настроек
@@ -152,20 +153,19 @@ public class ILC_main_form extends javax.swing.JFrame {
         jLabel10 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
         jButton2 = new javax.swing.JButton();
-        jTextField1 = new javax.swing.JTextField();
-        jTextField2 = new javax.swing.JTextField();
-        jTextField3 = new javax.swing.JTextField();
-        jButton3 = new javax.swing.JButton();
-        jButton6 = new javax.swing.JButton();
-        jButton7 = new javax.swing.JButton();
+        jTextField_zeroVal = new javax.swing.JTextField();
+        jTextField_appVal = new javax.swing.JTextField();
+        jTextField_currAppVal = new javax.swing.JTextField();
+        jButton_setZero = new javax.swing.JButton();
+        jButton_setCurrAppVal = new javax.swing.JButton();
         jLabel12 = new javax.swing.JLabel();
-        jTextField4 = new javax.swing.JTextField();
-        jButton8 = new javax.swing.JButton();
+        jTextField_errorVal = new javax.swing.JTextField();
+        jButton_getOffsetVal = new javax.swing.JButton();
         jLabel13 = new javax.swing.JLabel();
-        jTextField5 = new javax.swing.JTextField();
+        jTextField_offsetVal = new javax.swing.JTextField();
         jLabel16 = new javax.swing.JLabel();
-        jTextField6 = new javax.swing.JTextField();
-        jButton10 = new javax.swing.JButton();
+        jTextField_koefVal = new javax.swing.JTextField();
+        jButton_getKoefVal = new javax.swing.JButton();
         jSeparator1 = new javax.swing.JSeparator();
         jTabbedPane_tabs = new javax.swing.JTabbedPane();
         jPanel_connect = new javax.swing.JPanel();
@@ -223,7 +223,6 @@ public class ILC_main_form extends javax.swing.JFrame {
         jButton_openCalPhase = new javax.swing.JButton();
         jButton_openCalMain = new javax.swing.JButton();
         jButton_saveCalMain = new javax.swing.JButton();
-        jButton_calCalculator = new javax.swing.JButton();
         jLabel24 = new javax.swing.JLabel();
         jComboBox_line = new javax.swing.JComboBox<>();
         jButton_setLine = new javax.swing.JButton();
@@ -238,6 +237,7 @@ public class ILC_main_form extends javax.swing.JFrame {
         jLabel19 = new javax.swing.JLabel();
         jLabel26 = new javax.swing.JLabel();
         jComboBox_chCal = new javax.swing.JComboBox<>();
+        jButton_asseptCalibr = new javax.swing.JButton();
         jPanel_graphs = new javax.swing.JPanel();
         jPanel_debug = new javax.swing.JPanel();
         jPanel_script = new javax.swing.JPanel();
@@ -294,7 +294,8 @@ public class ILC_main_form extends javax.swing.JFrame {
             }
         });
 
-        jFrame_calCalculator.setResizable(false);
+        jFrame_calCalculator.setMaximumSize(new java.awt.Dimension(512, 512));
+        jFrame_calCalculator.setMinimumSize(new java.awt.Dimension(418, 260));
         jFrame_calCalculator.setType(java.awt.Window.Type.POPUP);
 
         jLabel9.setText("Значение параметра при нуле:");
@@ -304,19 +305,32 @@ public class ILC_main_form extends javax.swing.JFrame {
         jLabel11.setText("Значение параметра при воздействи:");
 
         jButton2.setText("Рассчитать");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
-        jButton3.setText("<<");
+        jButton_setZero.setText("<<");
+        jButton_setZero.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton_setZeroActionPerformed(evt);
+            }
+        });
 
-        jButton6.setText("<<");
-
-        jButton7.setText("<<");
+        jButton_setCurrAppVal.setText("<<");
+        jButton_setCurrAppVal.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton_setCurrAppValActionPerformed(evt);
+            }
+        });
 
         jLabel12.setText("Общая ошибка %:");
 
-        jButton8.setText(">>");
-        jButton8.addActionListener(new java.awt.event.ActionListener() {
+        jButton_getOffsetVal.setText(">>");
+        jButton_getOffsetVal.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton8ActionPerformed(evt);
+                jButton_getOffsetValActionPerformed(evt);
             }
         });
 
@@ -324,10 +338,10 @@ public class ILC_main_form extends javax.swing.JFrame {
 
         jLabel16.setText("Значение регистра Усиления:");
 
-        jButton10.setText(">>");
-        jButton10.addActionListener(new java.awt.event.ActionListener() {
+        jButton_getKoefVal.setText(">>");
+        jButton_getKoefVal.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton10ActionPerformed(evt);
+                jButton_getKoefValActionPerformed(evt);
             }
         });
 
@@ -335,56 +349,45 @@ public class ILC_main_form extends javax.swing.JFrame {
         jFrame_calCalculator.getContentPane().setLayout(jFrame_calCalculatorLayout);
         jFrame_calCalculatorLayout.setHorizontalGroup(
             jFrame_calCalculatorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jFrame_calCalculatorLayout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jFrame_calCalculatorLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jFrame_calCalculatorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jFrame_calCalculatorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jSeparator1)
                     .addGroup(jFrame_calCalculatorLayout.createSequentialGroup()
-                        .addGroup(jFrame_calCalculatorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jLabel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, 192, Short.MAX_VALUE))
+                        .addGroup(jFrame_calCalculatorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel11, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 252, Short.MAX_VALUE)
+                            .addComponent(jLabel9, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel10, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jFrame_calCalculatorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jFrame_calCalculatorLayout.createSequentialGroup()
-                                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jTextField_zeroVal, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jTextField_appVal, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton_setZero))
+                    .addGroup(jFrame_calCalculatorLayout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGroup(jFrame_calCalculatorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jFrame_calCalculatorLayout.createSequentialGroup()
+                                .addComponent(jTextField_koefVal, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButton3))
-                            .addGroup(jFrame_calCalculatorLayout.createSequentialGroup()
-                                .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jButton_getKoefVal))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jFrame_calCalculatorLayout.createSequentialGroup()
+                                .addComponent(jTextField_currAppVal, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButton6))))
+                                .addComponent(jButton_setCurrAppVal))
+                            .addComponent(jButton2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jFrame_calCalculatorLayout.createSequentialGroup()
-                        .addComponent(jLabel11)
+                        .addGroup(jFrame_calCalculatorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel16, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel13, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel12, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(jFrame_calCalculatorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jTextField_errorVal, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jTextField_offsetVal, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton7)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(jFrame_calCalculatorLayout.createSequentialGroup()
-                .addGap(9, 9, 9)
-                .addGroup(jFrame_calCalculatorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jFrame_calCalculatorLayout.createSequentialGroup()
-                        .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jFrame_calCalculatorLayout.createSequentialGroup()
-                        .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton8))
-                    .addGroup(jFrame_calCalculatorLayout.createSequentialGroup()
-                        .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton10))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jFrame_calCalculatorLayout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 208, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(8, 8, 8))
-            .addGroup(jFrame_calCalculatorLayout.createSequentialGroup()
-                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 357, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                        .addComponent(jButton_getOffsetVal)))
+                .addContainerGap())
         );
         jFrame_calCalculatorLayout.setVerticalGroup(
             jFrame_calCalculatorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -392,38 +395,36 @@ public class ILC_main_form extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jFrame_calCalculatorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel9)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton3))
+                    .addComponent(jTextField_zeroVal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton_setZero))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jFrame_calCalculatorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel10)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton6))
+                    .addComponent(jTextField_appVal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jFrame_calCalculatorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel11)
-                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton7))
+                    .addComponent(jTextField_currAppVal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton_setCurrAppVal))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 2, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jFrame_calCalculatorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel12)
-                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jTextField_errorVal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jFrame_calCalculatorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton8)
+                    .addComponent(jButton_getOffsetVal, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel13)
-                    .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jTextField_offsetVal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jFrame_calCalculatorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton10)
-                    .addGroup(jFrame_calCalculatorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGroup(jFrame_calCalculatorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextField_koefVal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton_getKoefVal))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButton2)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(20, Short.MAX_VALUE))
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -824,10 +825,12 @@ public class ILC_main_form extends javax.swing.JFrame {
             }
         });
 
+        jComboBox_calPhaseChoose.setFont(new java.awt.Font("Tahoma", 0, 10)); // NOI18N
         jComboBox_calPhaseChoose.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Параметры фазы A", "Параметры фазы B", "Параметры фазы C" }));
 
         jLabel2.setText("Фаза:");
 
+        jTable_calPhase.setFont(new java.awt.Font("Tahoma", 0, 10)); // NOI18N
         jTable_calPhase.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {"11", "WARTU", "0xFFFFFFFF", "U пропроциональный коэффициент"},
@@ -851,6 +854,11 @@ public class ILC_main_form extends javax.swing.JFrame {
                 return types [columnIndex];
             }
         });
+        jTable_calPhase.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable_calPhaseMouseClicked(evt);
+            }
+        });
         jScrollPane6.setViewportView(jTable_calPhase);
         if (jTable_calPhase.getColumnModel().getColumnCount() > 0) {
             jTable_calPhase.getColumnModel().getColumn(0).setMinWidth(20);
@@ -866,26 +874,29 @@ public class ILC_main_form extends javax.swing.JFrame {
 
         jLabel8.setText("Общие параметры:");
 
+        jTable_calMain.setFont(new java.awt.Font("Tahoma", 0, 10)); // NOI18N
         jTable_calMain.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {"0", "CTHH", "0xFFFFFFFF", ""},
-                {"1", "CTHL", "0xFFFFFFFF", null},
-                {"2", "WAEC0", "0xFFFFFFFF", null},
-                {"3", "MTPARA0", "0xFFFFFFFF", null},
-                {"4", "MTPARA1", "0xFFFFFFFF", null},
-                {"5", "MTPARA2", "0xFFFFFFFF", null},
-                {"6", "ANCtrl0", "0xFFFFFFFF", null},
-                {"7", "ANCtrl1", "0xFFFFFFFF", null},
-                {"8", "ANCtrl2", "0xFFFFFFFF", null},
-                {"9", "ANCtrl3", "0xFFFFFFFF", null},
+                {"1", "CTHH", "0xFFFFFFFF", ""},
+                {"2", "CTHL", "0xFFFFFFFF", null},
+                {"3", "WAEC0", "0xFFFFFFFF", null},
+                {"4", "MTPARA0", "0xFFFFFFFF", null},
+                {"5", "MTPARA1", "0xFFFFFFFF", null},
+                {"6", "MTPARA2", "0xFFFFFFFF", null},
+                {"7", "ANCtrl0", "0xFFFFFFFF", null},
+                {"8", "ANCtrl1", "0xFFFFFFFF", null},
+                {"9", "ANCtrl2", "0xFFFFFFFF", null},
+                {"10", "ANCtrl3", "0xFFFFFFFF", null},
                 {"19", "WARTIN", "0xFFFFFFFF", "I нетрали проп. коэффициент"},
                 {"20", "WWARTIN", "0xFFFFFFFF", "I нейтрали смещение"},
                 {"31", "PROP_P", "0xFFFFFFFF", "P выходной проп. коэф."},
-                {"32", "PROP_U", "0xFFFFFFFF", "U выходной проп. коэф."},
-                {"33", "PROP_I", "0xFFFFFFFF", "I выходной проп. коэф."},
-                {"34", "PROP_FREQ", "0xFFFFFFFF", "FREQ выходной проп. коэф."},
-                {"35", "THRDI_DETECT", "0xFFFFFFFF", "Граница детектировани I"},
-                {"36", "THRDM_DETECT", "0xFFFFFFFF", "Граница фиксирования потреб."}
+                {"32", "PROP_RP", "0xFFFFFFFF", "Q выходной проп. коэф."},
+                {"33", "PROP_U", "0xFFFFFFFF", "U выходной проп. коэф."},
+                {"34", "PROP_I", "0xFFFFFFFF", "I выходной проп. коэф."},
+                {"35", "PROP_FREQ", "0xFFFFFFFF", "FREQ выходной проп. коэф."},
+                {"36", "PROP_COSFI", "0xFFFFFFFF", "COSfi выходной проп. коэф."},
+                {"37", "THRDI_DETECT", "0xFFFFFFFF", "Граница детектировани I"},
+                {"38", "THRDM_DETECT", "0xFFFFFFFF", "Граница фиксирования потреб."}
             },
             new String [] {
                 "ID", "Рег./Парам.", "Значение", "Описание"
@@ -897,6 +908,11 @@ public class ILC_main_form extends javax.swing.JFrame {
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
+            }
+        });
+        jTable_calMain.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable_calMainMouseClicked(evt);
             }
         });
         jScrollPane7.setViewportView(jTable_calMain);
@@ -912,6 +928,7 @@ public class ILC_main_form extends javax.swing.JFrame {
             jTable_calMain.getColumnModel().getColumn(2).setMaxWidth(90);
         }
 
+        jTable_valPhase.setFont(new java.awt.Font("Tahoma", 0, 10)); // NOI18N
         jTable_valPhase.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {"1", "RMSV", "0.0", "float", "RMS напряжение", "CH_0", "Line_A"},
@@ -1014,13 +1031,6 @@ public class ILC_main_form extends javax.swing.JFrame {
             }
         });
 
-        jButton_calCalculator.setText("Калькулятор");
-        jButton_calCalculator.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton_calCalculatorActionPerformed(evt);
-            }
-        });
-
         jLabel24.setText("Линия:");
 
         jComboBox_line.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Line_A", "Line_B", "Line_C", "Line_N", "Line_S" }));
@@ -1072,44 +1082,20 @@ public class ILC_main_form extends javax.swing.JFrame {
 
         jLabel26.setText("Канал:");
 
+        jComboBox_chCal.setFont(new java.awt.Font("Tahoma", 0, 10)); // NOI18N
         jComboBox_chCal.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "CH_0", "CH_1", "CH_2", "CH_3" }));
+
+        jButton_asseptCalibr.setText("Применить");
+        jButton_asseptCalibr.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton_asseptCalibrActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel_param_mainLayout = new javax.swing.GroupLayout(jPanel_param_main);
         jPanel_param_main.setLayout(jPanel_param_mainLayout);
         jPanel_param_mainLayout.setHorizontalGroup(
             jPanel_param_mainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel_param_mainLayout.createSequentialGroup()
-                .addGroup(jPanel_param_mainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel_param_mainLayout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jComboBox_calPhaseChoose, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel26)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jComboBox_chCal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel_param_mainLayout.createSequentialGroup()
-                        .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 369, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel_param_mainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jButton_readCalPhase, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButton_writeCalPhase, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButton_saveCalPhase, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButton_calCalculator1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButton_openCalPhase, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel_param_mainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel8)
-                    .addGroup(jPanel_param_mainLayout.createSequentialGroup()
-                        .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 357, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jPanel_param_mainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jButton_readCalMain, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButton_saveCalMain, javax.swing.GroupLayout.DEFAULT_SIZE, 129, Short.MAX_VALUE)
-                            .addComponent(jButton_openCalMain, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButton_writeCalMain, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButton_calCalculator, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                .addGap(0, 10, Short.MAX_VALUE))
             .addGroup(jPanel_param_mainLayout.createSequentialGroup()
                 .addGroup(jPanel_param_mainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane8, javax.swing.GroupLayout.PREFERRED_SIZE, 840, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1141,23 +1127,71 @@ public class ILC_main_form extends javax.swing.JFrame {
                             .addGroup(jPanel_param_mainLayout.createSequentialGroup()
                                 .addComponent(jLabel24)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jComboBox_line, 0, 91, Short.MAX_VALUE)))
+                                .addComponent(jComboBox_line, 0, 117, Short.MAX_VALUE)))
                         .addContainerGap())))
+            .addGroup(jPanel_param_mainLayout.createSequentialGroup()
+                .addGroup(jPanel_param_mainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel_param_mainLayout.createSequentialGroup()
+                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jComboBox_calPhaseChoose, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel26)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jComboBox_chCal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel_param_mainLayout.createSequentialGroup()
+                        .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 369, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel_param_mainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jButton_readCalPhase, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jButton_writeCalPhase, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jButton_saveCalPhase, javax.swing.GroupLayout.DEFAULT_SIZE, 101, Short.MAX_VALUE)
+                            .addComponent(jButton_openCalPhase, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel_param_mainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 357, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel8))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel_param_mainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButton_calCalculator1, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel_param_mainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(jButton_readCalMain, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton_saveCalMain, javax.swing.GroupLayout.DEFAULT_SIZE, 153, Short.MAX_VALUE)
+                        .addComponent(jButton_openCalMain, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton_writeCalMain, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jButton_asseptCalibr, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel_param_mainLayout.setVerticalGroup(
             jPanel_param_mainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel_param_mainLayout.createSequentialGroup()
-                .addGroup(jPanel_param_mainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jComboBox_calPhaseChoose, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2)
-                    .addComponent(jLabel8)
-                    .addGroup(jPanel_param_mainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jComboBox_chCal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel26)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel_param_mainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(jPanel_param_mainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel_param_mainLayout.createSequentialGroup()
-                        .addComponent(jButton_calCalculator)
+                        .addGroup(jPanel_param_mainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel_param_mainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(jComboBox_chCal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabel26))
+                            .addGroup(jPanel_param_mainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(jComboBox_calPhaseChoose, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabel2)
+                                .addComponent(jLabel8)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel_param_mainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addGroup(jPanel_param_mainLayout.createSequentialGroup()
+                                .addComponent(jButton_openCalPhase, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jButton_saveCalPhase, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jButton_writeCalPhase, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jButton_readCalPhase, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jScrollPane6, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 188, Short.MAX_VALUE)
+                            .addComponent(jScrollPane7, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel_param_mainLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jButton_asseptCalibr, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton_calCalculator1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton_openCalMain, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -1165,20 +1199,7 @@ public class ILC_main_form extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton_writeCalMain, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton_readCalMain, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel_param_mainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addGroup(jPanel_param_mainLayout.createSequentialGroup()
-                            .addComponent(jButton_calCalculator1)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(jButton_openCalPhase, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(jButton_saveCalPhase, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(jButton_writeCalPhase, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(jButton_readCalPhase, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addComponent(jScrollPane6, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 188, Short.MAX_VALUE)
-                        .addComponent(jScrollPane7, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)))
+                        .addComponent(jButton_readCalMain, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGroup(jPanel_param_mainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel_param_mainLayout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -1219,7 +1240,7 @@ public class ILC_main_form extends javax.swing.JFrame {
         jPanel_graphs.setLayout(jPanel_graphsLayout);
         jPanel_graphsLayout.setHorizontalGroup(
             jPanel_graphsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 986, Short.MAX_VALUE)
+            .addGap(0, 1010, Short.MAX_VALUE)
         );
         jPanel_graphsLayout.setVerticalGroup(
             jPanel_graphsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1403,7 +1424,7 @@ public class ILC_main_form extends javax.swing.JFrame {
                     .addGroup(jPanel24Layout.createSequentialGroup()
                         .addComponent(jButton_debug_clearList, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton_debug_addLibraries, javax.swing.GroupLayout.DEFAULT_SIZE, 94, Short.MAX_VALUE)
+                        .addComponent(jButton_debug_addLibraries, javax.swing.GroupLayout.PREFERRED_SIZE, 94, Short.MAX_VALUE)
                         .addContainerGap())))
         );
         jPanel24Layout.setVerticalGroup(
@@ -1570,7 +1591,7 @@ public class ILC_main_form extends javax.swing.JFrame {
         jPanel_terminalLayout.setHorizontalGroup(
             jPanel_terminalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel_terminalLayout.createSequentialGroup()
-                .addComponent(jTextField_term_in, javax.swing.GroupLayout.DEFAULT_SIZE, 861, Short.MAX_VALUE)
+                .addComponent(jTextField_term_in, javax.swing.GroupLayout.DEFAULT_SIZE, 881, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton_terminal_clear, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -1642,7 +1663,7 @@ public class ILC_main_form extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jComboBox_comPort, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(10, 10, 10)
-                .addComponent(jButton_comConnect, javax.swing.GroupLayout.DEFAULT_SIZE, 145, Short.MAX_VALUE)
+                .addComponent(jButton_comConnect, javax.swing.GroupLayout.DEFAULT_SIZE, 165, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton_comDisconnect, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(30, 30, 30)
@@ -1709,9 +1730,39 @@ public class ILC_main_form extends javax.swing.JFrame {
         jTextField_term_in.selectAll();
     }//GEN-LAST:event_jTextField_term_inMouseClicked
 
+    private void writeCal(JTable table, int channel, int line) {
+        int calID;
+        byte[] valBuf = new byte[4];
+        String str;
+
+        for (int i = 0; i < table.getRowCount(); i++) {
+            try {
+                calID = Integer.parseInt(table.getValueAt(i, 0).toString());
+
+                str = table.getValueAt(i, 2).toString();
+                Long val = Long.parseLong(str.substring(2, str.length()), 16);
+                valBuf = deviceILC.longToBytes(val);
+
+                if (deviceILC.writeCal(calID, channel, line, valBuf) == true) {
+                    terminalAddStr("Регистр :"+jTable_settings.getValueAt(i, 1).toString() + " записан", colorMsg_good);
+                } else {
+                    terminalAddStr(jTable_settings.getValueAt(i, 1).toString() + " ошибка записи", colorMsg_error);
+                }
+
+                Thread.sleep(100);
+
+            } catch (InterruptedException ex) {
+                Logger.getLogger(ILC_main_form.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
+
     //Записать основные параметры
     private void jButton_writeCalPhaseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_writeCalPhaseActionPerformed
+        int channel = jComboBox_chCal.getSelectedIndex();
+        int line = jComboBox_calPhaseChoose.getSelectedIndex();
 
+        writeCal(jTable_calPhase, channel, line);
     }//GEN-LAST:event_jButton_writeCalPhaseActionPerformed
 
     //Считать основные параметры
@@ -1724,6 +1775,7 @@ public class ILC_main_form extends javax.swing.JFrame {
 
     private void readCal(JTable table, int channel, int line) {
         ILC_device_c.ILC_buf_c retBuf;
+        byte[] longBuf = new byte[4];
 
         for (int i = 0; i < table.getRowCount(); i++) {
             int calID = Integer.parseInt(table.getValueAt(i, 0).toString());
@@ -1732,8 +1784,10 @@ public class ILC_main_form extends javax.swing.JFrame {
 
             if (retBuf.status == ILC_device_c.USBC_RET_OK) {
                 if (retBuf.Len == 4) {
-                    Long l = deviceILC.bytesToLong(retBuf.Data);
-                    String str = "0x" + Long.toHexString(l);
+                    System.arraycopy(retBuf.Data, 0, longBuf, 0, longBuf.length);
+                    int val = deviceILC.bytesToInt(longBuf);
+                    
+                    String str = String.format("0x%08X", val);
                     table.setValueAt(str, i, 2);
                 }
             } else if (retBuf.status == ILC_device_c.USBC_RET_ERROR) {
@@ -2417,7 +2471,10 @@ public class ILC_main_form extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton_setSaveFileActionPerformed
 
     private void jButton_writeCalMainActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_writeCalMainActionPerformed
-        // TODO add your handling code here:
+        int channel = jComboBox_chCal.getSelectedIndex();
+        int line = jComboBox_calPhaseChoose.getSelectedIndex();
+
+        writeCal(jTable_calMain, channel, line);
     }//GEN-LAST:event_jButton_writeCalMainActionPerformed
 
     private void jButton_readCalMainActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_readCalMainActionPerformed
@@ -2477,8 +2534,8 @@ public class ILC_main_form extends javax.swing.JFrame {
                 }
                 if (jTable_valPhase.getValueAt(i, 3).toString().equals("uint64_t")) {
                     if (retBuf.Len == 8) {
-                        long l = deviceILC.bytesToLong(retBuf.Data);
-                        jTable_valPhase.setValueAt(String.format("%d", l), i, 2);
+                        int val = deviceILC.bytesToInt(retBuf.Data);
+                        jTable_valPhase.setValueAt(String.format("%d", val), i, 2);
                     }
                 }
             } else if (retBuf.status == ILC_device_c.USBC_RET_NAVAL) {
@@ -2529,32 +2586,52 @@ public class ILC_main_form extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton_readValActionPerformed
 
     private void jButton_saveCalPhaseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_saveCalPhaseActionPerformed
-        // TODO add your handling code here:
+        int ret = jFileChooser_file.showDialog(null, "Сохранить файл");  
+        if (ret == jFileChooser_file.APPROVE_OPTION) {
+            File save_file = jFileChooser_file.getSelectedFile();
+            saveTable(save_file, (DefaultTableModel) jTable_calPhase.getModel());
+        }
     }//GEN-LAST:event_jButton_saveCalPhaseActionPerformed
 
     private void jButton_openCalPhaseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_openCalPhaseActionPerformed
-        // TODO add your handling code here:
+        int ret = jFileChooser_file.showDialog(null, "Открыть файл");
+        if (ret == jFileChooser_file.APPROVE_OPTION) {
+            File save_file = jFileChooser_file.getSelectedFile();
+            loadTable(save_file, (DefaultTableModel) jTable_calPhase.getModel());
+        }
     }//GEN-LAST:event_jButton_openCalPhaseActionPerformed
 
     private void jButton_openCalMainActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_openCalMainActionPerformed
-        // TODO add your handling code here:
+        int ret = jFileChooser_file.showDialog(null, "Открыть файл");
+        if (ret == jFileChooser_file.APPROVE_OPTION) {
+            File save_file = jFileChooser_file.getSelectedFile();
+            loadTable(save_file, (DefaultTableModel) jTable_calMain.getModel());
+        }
     }//GEN-LAST:event_jButton_openCalMainActionPerformed
 
     private void jButton_saveCalMainActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_saveCalMainActionPerformed
-        // TODO add your handling code here:
+        int ret = jFileChooser_file.showDialog(null, "Сохранить файл");  
+        if (ret == jFileChooser_file.APPROVE_OPTION) {
+            File save_file = jFileChooser_file.getSelectedFile();
+            saveTable(save_file, (DefaultTableModel) jTable_calMain.getModel());
+        }
     }//GEN-LAST:event_jButton_saveCalMainActionPerformed
 
-    private void jButton_calCalculatorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_calCalculatorActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton_calCalculatorActionPerformed
+    private void jButton_getOffsetValActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_getOffsetValActionPerformed
+        int selRow = SelTable.getSelectedRow();
+        if (selRow != -1)
+        {
+            SelTable.setValueAt(jTextField_offsetVal.getText(), selRow, 2); 
+        }
+    }//GEN-LAST:event_jButton_getOffsetValActionPerformed
 
-    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton8ActionPerformed
-
-    private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton10ActionPerformed
+    private void jButton_getKoefValActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_getKoefValActionPerformed
+        int selRow = SelTable.getSelectedRow();
+        if (selRow != -1)
+        {
+            SelTable.setValueAt(jTextField_koefVal.getText(), selRow, 2); 
+        }
+    }//GEN-LAST:event_jButton_getKoefValActionPerformed
 
     private void jButton_setLineActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_setLineActionPerformed
         for (int i=0; i<jTable_valPhase.getRowCount(); i++)
@@ -2583,7 +2660,9 @@ public class ILC_main_form extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton_saveValActionPerformed
 
     private void jButton_calCalculator1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_calCalculator1ActionPerformed
-        // TODO add your handling code here:
+        jFrame_calCalculator.setAlwaysOnTop(true);
+        jFrame_calCalculator.setLocationRelativeTo(null);
+        jFrame_calCalculator.setVisible(true);
     }//GEN-LAST:event_jButton_calCalculator1ActionPerformed
 
     private void jButton_serChActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_serChActionPerformed
@@ -2595,6 +2674,60 @@ public class ILC_main_form extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_jButton_serChActionPerformed
+
+    private void jButton_asseptCalibrActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_asseptCalibrActionPerformed
+        if (deviceILC.assignCalibr() == true)
+        {
+            terminalAddStr("Калибровочные параметры применены. Пожалуйста перезагрузите устройство.", colorMsg_good);
+            deviceILC.port.closeCOMPort();
+        }else{
+            terminalAddStr("Ошибка пакета", colorMsg_error);
+        }
+    }//GEN-LAST:event_jButton_asseptCalibrActionPerformed
+
+    private void jButton_setZeroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_setZeroActionPerformed
+        int selRow = jTable_valPhase.getSelectedRow();
+        if (selRow != -1)
+        {
+            String str = jTable_valPhase.getValueAt(selRow, 2).toString();
+            jTextField_zeroVal.setText(str);
+        }
+    }//GEN-LAST:event_jButton_setZeroActionPerformed
+
+    private void jButton_setCurrAppValActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_setCurrAppValActionPerformed
+        int selRow = jTable_valPhase.getSelectedRow();
+        if (selRow != -1)
+        {
+            String str = jTable_valPhase.getValueAt(selRow, 2).toString();
+            jTextField_currAppVal.setText(str);
+        }
+    }//GEN-LAST:event_jButton_setCurrAppValActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        int zeroVal = Integer.parseInt(jTextField_zeroVal.getText());
+        int appVal = Integer.parseInt(jTextField_appVal.getText());
+        int currVal = Integer.parseInt(jTextField_currAppVal.getText());
+
+        if (currVal == 0) {
+            terminalAddStr("Деление на 0", colorMsg_error);
+            return;
+        }
+
+        float errorVal = (currVal - appVal) / currVal;
+        int koefVal = (int) Math.round(Math.pow(2, 31)*((1/(1+errorVal))-1));
+
+        jTextField_errorVal.setText(String.format("%.2f", errorVal));
+        jTextField_offsetVal.setText(String.format("0x%08X", zeroVal));
+        jTextField_koefVal.setText(String.format("0x%08X", koefVal));
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jTable_calMainMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable_calMainMouseClicked
+        SelTable = jTable_calMain;
+    }//GEN-LAST:event_jTable_calMainMouseClicked
+
+    private void jTable_calPhaseMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable_calPhaseMouseClicked
+        SelTable = jTable_calPhase;
+    }//GEN-LAST:event_jTable_calPhaseMouseClicked
 
     private void resetMake()
     {
@@ -2646,20 +2779,15 @@ public class ILC_main_form extends javax.swing.JFrame {
     private javax.swing.ButtonGroup buttonGroup_debug_gener;
     private javax.swing.ButtonGroup buttonGroup_debug_lib;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton10;
     private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton5;
-    private javax.swing.JButton jButton6;
-    private javax.swing.JButton jButton7;
-    private javax.swing.JButton jButton8;
     private javax.swing.JButton jButton9;
+    private javax.swing.JButton jButton_asseptCalibr;
     private javax.swing.JButton jButton_assignSettings;
     private javax.swing.JButton jButton_burst_clear;
     private javax.swing.JButton jButton_burst_read;
     private javax.swing.JButton jButton_burst_set_val;
     private javax.swing.JButton jButton_burst_write;
-    private javax.swing.JButton jButton_calCalculator;
     private javax.swing.JButton jButton_calCalculator1;
     private javax.swing.JButton jButton_checkConn;
     private javax.swing.JButton jButton_checkConn1;
@@ -2678,6 +2806,8 @@ public class ILC_main_form extends javax.swing.JFrame {
     private javax.swing.JButton jButton_devReset1;
     private javax.swing.JButton jButton_devReset2;
     private javax.swing.JButton jButton_flashcopy;
+    private javax.swing.JButton jButton_getKoefVal;
+    private javax.swing.JButton jButton_getOffsetVal;
     private javax.swing.JButton jButton_openCalMain;
     private javax.swing.JButton jButton_openCalPhase;
     private javax.swing.JButton jButton_openVal;
@@ -2691,9 +2821,11 @@ public class ILC_main_form extends javax.swing.JFrame {
     private javax.swing.JButton jButton_saveCalPhase;
     private javax.swing.JButton jButton_saveVal;
     private javax.swing.JButton jButton_serCh;
+    private javax.swing.JButton jButton_setCurrAppVal;
     private javax.swing.JButton jButton_setLine;
     private javax.swing.JButton jButton_setOpenFile;
     private javax.swing.JButton jButton_setSaveFile;
+    private javax.swing.JButton jButton_setZero;
     private javax.swing.JButton jButton_start_code;
     private javax.swing.JButton jButton_term_send;
     private javax.swing.JButton jButton_terminal_clear;
@@ -2769,19 +2901,19 @@ public class ILC_main_form extends javax.swing.JFrame {
     private javax.swing.JTable jTable_flash;
     private javax.swing.JTable jTable_settings;
     private javax.swing.JTable jTable_valPhase;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
-    private javax.swing.JTextField jTextField5;
-    private javax.swing.JTextField jTextField6;
+    private javax.swing.JTextField jTextField_appVal;
     private javax.swing.JTextField jTextField_block;
     private javax.swing.JTextField jTextField_count_bytes;
+    private javax.swing.JTextField jTextField_currAppVal;
+    private javax.swing.JTextField jTextField_errorVal;
+    private javax.swing.JTextField jTextField_koefVal;
     private javax.swing.JTextField jTextField_offset;
+    private javax.swing.JTextField jTextField_offsetVal;
     private javax.swing.JTextField jTextField_page;
     private javax.swing.JTextField jTextField_readPeriod;
     private javax.swing.JTextField jTextField_set_val;
     private javax.swing.JTextField jTextField_term_in;
+    private javax.swing.JTextField jTextField_zeroVal;
     private javax.swing.JTextPane jTextPane_terminal;
     private org.fife.ui.rsyntaxtextarea.RSyntaxTextArea rSyntaxTextArea_debug;
     private org.fife.ui.rtextarea.RTextScrollPane rTextScrollPane_debug;
