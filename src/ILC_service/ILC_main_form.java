@@ -1,8 +1,11 @@
 package ILC_service;
 
 import ILC_service.Serial_port.Buf_class;
+import java.awt.BasicStroke;
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.List;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -50,6 +53,12 @@ import javax.swing.text.StyleConstants;
 import javax.swing.text.StyleContext;
 import jssc.SerialPortList;
 import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartPanel;
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.data.xy.XYSeries;
+import org.jfree.data.xy.XYSeriesCollection;
 
 /**
  *
@@ -238,7 +247,7 @@ public class ILC_main_form extends javax.swing.JFrame {
         jLabel26 = new javax.swing.JLabel();
         jComboBox_chCal = new javax.swing.JComboBox<>();
         jButton_asseptCalibr = new javax.swing.JButton();
-        jPanel_graphs = new javax.swing.JPanel();
+        jLabel_readValCounter = new javax.swing.JLabel();
         jPanel_debug = new javax.swing.JPanel();
         jPanel_script = new javax.swing.JPanel();
         rTextScrollPane_debug = new org.fife.ui.rtextarea.RTextScrollPane();
@@ -271,6 +280,25 @@ public class ILC_main_form extends javax.swing.JFrame {
         jButton_debug_libSave = new javax.swing.JButton();
         jButton_debug_add_current = new javax.swing.JButton();
         jButton_start_code = new javax.swing.JButton();
+        jPanel_graphs = new javax.swing.JPanel();
+        jPanel_graph = new javax.swing.JPanel();
+        jButton_readValGraph = new javax.swing.JButton();
+        jTextField_readPeriodGraph = new javax.swing.JTextField();
+        jLabel27 = new javax.swing.JLabel();
+        jLabel28 = new javax.swing.JLabel();
+        jComboBox_valGraph = new javax.swing.JComboBox<>();
+        jLabel29 = new javax.swing.JLabel();
+        jLabel30 = new javax.swing.JLabel();
+        jComboBox_lineGraph = new javax.swing.JComboBox<>();
+        jComboBox_chGraph = new javax.swing.JComboBox<>();
+        jButton_readValGraphStop = new javax.swing.JButton();
+        jTextField_readValGraph = new javax.swing.JTextField();
+        jLabel31 = new javax.swing.JLabel();
+        jLabel32 = new javax.swing.JLabel();
+        jLabel_graphCounter = new javax.swing.JLabel();
+        jLabel33 = new javax.swing.JLabel();
+        jLabel34 = new javax.swing.JLabel();
+        jTextField_readMultGraph = new javax.swing.JTextField();
         jPanel_terminal = new javax.swing.JPanel();
         jButton_term_send = new javax.swing.JButton();
         jTextField_term_in = new javax.swing.JTextField();
@@ -294,7 +322,6 @@ public class ILC_main_form extends javax.swing.JFrame {
             }
         });
 
-        jFrame_calCalculator.setMaximumSize(new java.awt.Dimension(512, 512));
         jFrame_calCalculator.setMinimumSize(new java.awt.Dimension(418, 260));
         jFrame_calCalculator.setType(java.awt.Window.Type.POPUP);
 
@@ -662,7 +689,7 @@ public class ILC_main_form extends javax.swing.JFrame {
             jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel11Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 357, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 358, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel20)
@@ -1092,6 +1119,9 @@ public class ILC_main_form extends javax.swing.JFrame {
             }
         });
 
+        jLabel_readValCounter.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel_readValCounter.setText("0");
+
         javax.swing.GroupLayout jPanel_param_mainLayout = new javax.swing.GroupLayout(jPanel_param_main);
         jPanel_param_main.setLayout(jPanel_param_mainLayout);
         jPanel_param_mainLayout.setHorizontalGroup(
@@ -1104,7 +1134,10 @@ public class ILC_main_form extends javax.swing.JFrame {
                 .addGroup(jPanel_param_mainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel_param_mainLayout.createSequentialGroup()
                         .addGroup(jPanel_param_mainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jCheckBox_readPeriodic, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(jPanel_param_mainLayout.createSequentialGroup()
+                                .addComponent(jCheckBox_readPeriodic, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jLabel_readValCounter, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jButton_openVal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jButton_setLine, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jButton_serCh, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -1127,7 +1160,7 @@ public class ILC_main_form extends javax.swing.JFrame {
                             .addGroup(jPanel_param_mainLayout.createSequentialGroup()
                                 .addComponent(jLabel24)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jComboBox_line, 0, 117, Short.MAX_VALUE)))
+                                .addComponent(jComboBox_line, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                         .addContainerGap())))
             .addGroup(jPanel_param_mainLayout.createSequentialGroup()
                 .addGroup(jPanel_param_mainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1208,7 +1241,9 @@ public class ILC_main_form extends javax.swing.JFrame {
                         .addComponent(jScrollPane8, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel_param_mainLayout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jCheckBox_readPeriodic)
+                        .addGroup(jPanel_param_mainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jCheckBox_readPeriodic)
+                            .addComponent(jLabel_readValCounter, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel_param_mainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jTextField_readPeriod, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1235,19 +1270,6 @@ public class ILC_main_form extends javax.swing.JFrame {
         );
 
         jTabbedPane_tabs.addTab("Калибровка", jPanel_param_main);
-
-        javax.swing.GroupLayout jPanel_graphsLayout = new javax.swing.GroupLayout(jPanel_graphs);
-        jPanel_graphs.setLayout(jPanel_graphsLayout);
-        jPanel_graphsLayout.setHorizontalGroup(
-            jPanel_graphsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1010, Short.MAX_VALUE)
-        );
-        jPanel_graphsLayout.setVerticalGroup(
-            jPanel_graphsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 496, Short.MAX_VALUE)
-        );
-
-        jTabbedPane_tabs.addTab("Графики", jPanel_graphs);
 
         jPanel_script.setBorder(javax.swing.BorderFactory.createTitledBorder("Текст скрипта"));
 
@@ -1448,7 +1470,7 @@ public class ILC_main_form extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel6)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane17, javax.swing.GroupLayout.DEFAULT_SIZE, 232, Short.MAX_VALUE)
+                .addComponent(jScrollPane17, javax.swing.GroupLayout.DEFAULT_SIZE, 231, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel24Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton_debug_clearList)
@@ -1560,6 +1582,144 @@ public class ILC_main_form extends javax.swing.JFrame {
         );
 
         jTabbedPane_tabs.addTab("Скрипт", jPanel_debug);
+
+        jPanel_graphs.addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentShown(java.awt.event.ComponentEvent evt) {
+                jPanel_graphsComponentShown(evt);
+            }
+        });
+
+        jPanel_graph.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
+        javax.swing.GroupLayout jPanel_graphLayout = new javax.swing.GroupLayout(jPanel_graph);
+        jPanel_graph.setLayout(jPanel_graphLayout);
+        jPanel_graphLayout.setHorizontalGroup(
+            jPanel_graphLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+        jPanel_graphLayout.setVerticalGroup(
+            jPanel_graphLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 441, Short.MAX_VALUE)
+        );
+
+        jButton_readValGraph.setText("Старт");
+        jButton_readValGraph.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton_readValGraphActionPerformed(evt);
+            }
+        });
+
+        jTextField_readPeriodGraph.setText("10");
+
+        jLabel27.setText("сек.");
+
+        jLabel28.setText("Параметр:");
+
+        jComboBox_valGraph.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "RMSV", "RMSI", "RMSP", "RMSRP", "COSFI", "CONSSP", "CONSP", "CONSRP", "FREQ" }));
+
+        jLabel29.setText("Канал:");
+
+        jLabel30.setText("Линия:");
+
+        jComboBox_lineGraph.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Line_A", "Line_B", "Line_C", "Line_N", "Line_S" }));
+
+        jComboBox_chGraph.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "CH_0", "CH_1", "CH_2", "CH_3" }));
+
+        jButton_readValGraphStop.setText("Стоп");
+        jButton_readValGraphStop.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton_readValGraphStopActionPerformed(evt);
+            }
+        });
+
+        jTextField_readValGraph.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jTextField_readValGraph.setText("10");
+
+        jLabel31.setText("Значение");
+
+        jLabel32.setText("Счетчик:");
+
+        jLabel_graphCounter.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel_graphCounter.setText("0");
+
+        jLabel33.setText("Период");
+
+        jLabel34.setText("Масштаб");
+
+        jTextField_readMultGraph.setText("1000");
+
+        javax.swing.GroupLayout jPanel_graphsLayout = new javax.swing.GroupLayout(jPanel_graphs);
+        jPanel_graphs.setLayout(jPanel_graphsLayout);
+        jPanel_graphsLayout.setHorizontalGroup(
+            jPanel_graphsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel_graph, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(jPanel_graphsLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel28)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jComboBox_valGraph, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel29)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jComboBox_chGraph, 0, 77, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel30)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jComboBox_lineGraph, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel33, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jTextField_readPeriodGraph, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel27)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel34)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jTextField_readMultGraph, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel31)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jTextField_readValGraph, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel32)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel_graphCounter, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton_readValGraph, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton_readValGraphStop, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(40, 40, 40))
+        );
+        jPanel_graphsLayout.setVerticalGroup(
+            jPanel_graphsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel_graphsLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel_graphsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel_graphsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jTextField_readValGraph, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel31)
+                        .addComponent(jLabel32)
+                        .addComponent(jLabel_graphCounter)
+                        .addComponent(jButton_readValGraph)
+                        .addComponent(jButton_readValGraphStop))
+                    .addGroup(jPanel_graphsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jTextField_readPeriodGraph, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel28)
+                        .addComponent(jComboBox_valGraph, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel29)
+                        .addComponent(jLabel30)
+                        .addComponent(jComboBox_lineGraph, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jComboBox_chGraph, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel27)
+                        .addComponent(jLabel33)
+                        .addComponent(jLabel34)
+                        .addComponent(jTextField_readMultGraph, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel_graph, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        jTabbedPane_tabs.addTab("Графики", jPanel_graphs);
 
         jPanel_terminal.setBorder(javax.swing.BorderFactory.createTitledBorder("Терминал"));
 
@@ -1740,13 +1900,18 @@ public class ILC_main_form extends javax.swing.JFrame {
                 calID = Integer.parseInt(table.getValueAt(i, 0).toString());
 
                 str = table.getValueAt(i, 2).toString();
+                if (str.equals("ERROR"))
+                {
+                    terminalAddStr(table.getValueAt(i, 1).toString() + " ошибка значения", colorMsg_error);
+                    break;
+                }
                 Long val = Long.parseLong(str.substring(2, str.length()), 16);
-                valBuf = deviceILC.longToBytes(val);
+                valBuf = deviceILC.LongToBytes(val);
 
                 if (deviceILC.writeCal(calID, channel, line, valBuf) == true) {
-                    terminalAddStr("Регистр :"+jTable_settings.getValueAt(i, 1).toString() + " записан", colorMsg_good);
+                    terminalAddStr("Регистр :"+table.getValueAt(i, 1).toString() + " записан", colorMsg_good);
                 } else {
-                    terminalAddStr(jTable_settings.getValueAt(i, 1).toString() + " ошибка записи", colorMsg_error);
+                    terminalAddStr(table.getValueAt(i, 1).toString() + " ошибка записи", colorMsg_error);
                 }
 
                 Thread.sleep(100);
@@ -1763,6 +1928,7 @@ public class ILC_main_form extends javax.swing.JFrame {
         int line = jComboBox_calPhaseChoose.getSelectedIndex();
 
         writeCal(jTable_calPhase, channel, line);
+        terminalAddStr("Данные записаны", colorMsg_msg);
     }//GEN-LAST:event_jButton_writeCalPhaseActionPerformed
 
     //Считать основные параметры
@@ -1771,6 +1937,7 @@ public class ILC_main_form extends javax.swing.JFrame {
         int line = jComboBox_calPhaseChoose.getSelectedIndex();
         
         readCal(jTable_calPhase, channel, line);
+        terminalAddStr("Данные считаны", colorMsg_msg);
     }//GEN-LAST:event_jButton_readCalPhaseActionPerformed
 
     private void readCal(JTable table, int channel, int line) {
@@ -1785,13 +1952,15 @@ public class ILC_main_form extends javax.swing.JFrame {
             if (retBuf.status == ILC_device_c.USBC_RET_OK) {
                 if (retBuf.Len == 4) {
                     System.arraycopy(retBuf.Data, 0, longBuf, 0, longBuf.length);
-                    int val = deviceILC.bytesToInt(longBuf);
+                    long val = deviceILC.bytesToLong(longBuf);
                     
                     String str = String.format("0x%08X", val);
                     table.setValueAt(str, i, 2);
+                    terminalAddStr("Регистр :"+table.getValueAt(i, 1).toString() + " считан", colorMsg_good);
                 }
             } else if (retBuf.status == ILC_device_c.USBC_RET_ERROR) {
                 table.setValueAt("ERROR", i, 2);
+                terminalAddStr(table.getValueAt(i, 1).toString() + " ошибка чтения", colorMsg_error);
             }
         }
 
@@ -2534,7 +2703,7 @@ public class ILC_main_form extends javax.swing.JFrame {
                 }
                 if (jTable_valPhase.getValueAt(i, 3).toString().equals("uint64_t")) {
                     if (retBuf.Len == 8) {
-                        int val = deviceILC.bytesToInt(retBuf.Data);
+                        long val = deviceILC.bytesToLong(retBuf.Data);
                         jTable_valPhase.setValueAt(String.format("%d", val), i, 2);
                     }
                 }
@@ -2555,7 +2724,8 @@ public class ILC_main_form extends javax.swing.JFrame {
                 readCount = 0;
                 jButton_readVal.setText("Считать");
                 timerReadVal.stop();
-            } else {
+                jLabel_readValCounter.setText(String.valueOf(readCount));
+            } else {jLabel_readValCounter.setText(String.valueOf(readCount));
                 periodRead = 1;
                 jButton_readVal.setText("Стоп");
                 ActionListener listener = new ActionListener() {
@@ -2563,6 +2733,7 @@ public class ILC_main_form extends javax.swing.JFrame {
                     public void actionPerformed(ActionEvent e) {
                         readValues();
                         readCount++;
+                        jLabel_readValCounter.setText(String.valueOf(readCount));
                         terminalAddStr("Данные прочитаны #"+String.valueOf(readCount), colorMsg_good);
                     }
                 };
@@ -2713,11 +2884,11 @@ public class ILC_main_form extends javax.swing.JFrame {
             return;
         }
 
-        float errorVal = (currVal - appVal) / currVal;
-        int koefVal = (int) Math.round(Math.pow(2, 31)*((1/(1+errorVal))-1));
+        float errorVal = ((float)(currVal - appVal) / currVal);
+        int koefVal = (int) Math.round((float)Math.pow(2, 31)*((1/(1+errorVal))-1));
 
-        jTextField_errorVal.setText(String.format("%.2f", errorVal));
-        jTextField_offsetVal.setText(String.format("0x%08X", zeroVal));
+        jTextField_errorVal.setText(String.format("%.8f", errorVal));
+        jTextField_offsetVal.setText(String.format("0x%08X", -zeroVal));
         jTextField_koefVal.setText(String.format("0x%08X", koefVal));
     }//GEN-LAST:event_jButton2ActionPerformed
 
@@ -2729,6 +2900,110 @@ public class ILC_main_form extends javax.swing.JFrame {
         SelTable = jTable_calPhase;
     }//GEN-LAST:event_jTable_calPhaseMouseClicked
 
+    int valIDGraph = 0;
+    int channelGraph = 0;
+    int lineGraph = 0;
+    graphClass graph;
+    float mult = 0;
+    
+    private void jButton_readValGraphActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_readValGraphActionPerformed
+  
+        valIDGraph = jComboBox_valGraph.getSelectedIndex() + 1;
+        channelGraph = jComboBox_chGraph.getSelectedIndex();
+        lineGraph = jComboBox_lineGraph.getSelectedIndex();
+        graph = new graphClass(jComboBox_valGraph.getSelectedItem().toString());
+        int period = Integer.parseInt(jTextField_readPeriodGraph.getText());
+        mult = Float.parseFloat(jTextField_readMultGraph.getText());
+
+        ActionListener listener = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                ILC_device_c.ILC_buf_c retBuf = deviceILC.readValues(valIDGraph, channelGraph, lineGraph);
+
+                if (retBuf.status == ILC_device_c.USBC_RET_OK) {
+                    readCount++;
+                    jLabel_graphCounter.setText(String.valueOf(readCount));
+                    float fVal = ByteBuffer.wrap(retBuf.Data).order(ByteOrder.LITTLE_ENDIAN).getFloat();
+                    jTextField_readValGraph.setText(String.format("%.2f", fVal*mult));
+                    graph.incLoadChart((long) (fVal*mult));
+                }
+            }
+        };
+
+        if (period == 0) {
+            return;
+        }
+
+        timerReadVal = new Timer(period * 1000, listener);
+        timerReadVal.start();
+    }//GEN-LAST:event_jButton_readValGraphActionPerformed
+
+    private void jPanel_graphsComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_jPanel_graphsComponentShown
+
+    }//GEN-LAST:event_jPanel_graphsComponentShown
+
+    private void jButton_readValGraphStopActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_readValGraphStopActionPerformed
+        timerReadVal.stop();
+        readCount = 0;
+        jLabel_graphCounter.setText(String.valueOf(readCount));
+    }//GEN-LAST:event_jButton_readValGraphStopActionPerformed
+
+    class graphClass {
+
+        private XYSeries valSeries;
+        
+        private void initLoadChart(String name) {
+            valSeries = new XYSeries(name);
+
+            for (int i = 0; i < 60; i++) {
+                valSeries.add(i, 0);
+            }
+
+            XYSeriesCollection dataset = new XYSeriesCollection();
+            dataset.addSeries(valSeries);
+
+            JFreeChart valChart = ChartFactory.createXYLineChart(null, "Время", name, dataset, PlotOrientation.VERTICAL, false, false, false);
+
+//            cryptChart.getXYPlot().setDomainGridlinePaint(lafGridColor);
+//            cryptChart.getXYPlot().setRangeGridlinePaint(lafGridColor);
+//            cryptChart.setBackgroundPaint(lafBackground);
+            valChart.getXYPlot().getRangeAxis().setAutoRangeMinimumSize(3);
+//            valChart.getXYPlot().getRangeAxis().setLabelPaint(lafText);
+//            valChart.getXYPlot().getRangeAxis().setTickLabelPaint(lafText);
+            valChart.getXYPlot().getDomainAxis().setVisible(false);
+            //valChart.getXYPlot().getRangeAxis().setVisible(false);
+            //valChart.getXYPlot().setBackgroundPaint(lafForeground);
+
+            int seriesCount = valChart.getXYPlot().getSeriesCount();
+            for (int i = 0; i < seriesCount; i++) {
+                valChart.getXYPlot().getRenderer().setSeriesStroke(i, new BasicStroke(3));
+            }
+
+            ChartPanel chartPanel = new ChartPanel(valChart);
+            //chartPanel.setBackground(lafBackground);
+            chartPanel.setMaximumSize(new Dimension(896, 92));
+            chartPanel.setPreferredSize(new Dimension(896, 92));
+
+            
+            jPanel_graph.setLayout(new java.awt.BorderLayout());
+            //jPanel_graph.setBackground(lafBackground);
+            jPanel_graph.add(chartPanel, BorderLayout.CENTER);
+            jPanel_graph.validate();
+        }
+
+        public void incLoadChart(long val) {
+            for (int i = 0; i < 59; i++) {
+                valSeries.update(i, valSeries.getY(i + 1));
+            }
+            valSeries.update(59, (Number) (val));
+        }
+
+        public graphClass(String name) {
+            initLoadChart(name);
+        }
+    }
+    
     private void resetMake()
     {
         if (deviceILC.resetDevice() == true)
@@ -2815,6 +3090,8 @@ public class ILC_main_form extends javax.swing.JFrame {
     private javax.swing.JButton jButton_readCalPhase;
     private javax.swing.JButton jButton_readSettings;
     private javax.swing.JButton jButton_readVal;
+    private javax.swing.JButton jButton_readValGraph;
+    private javax.swing.JButton jButton_readValGraphStop;
     private javax.swing.JButton jButton_resetSettings;
     private javax.swing.JButton jButton_safe_settings;
     private javax.swing.JButton jButton_saveCalMain;
@@ -2837,10 +3114,13 @@ public class ILC_main_form extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> jComboBox_calPhaseChoose;
     private javax.swing.JComboBox<String> jComboBox_ch;
     private javax.swing.JComboBox<String> jComboBox_chCal;
+    private javax.swing.JComboBox<String> jComboBox_chGraph;
     private javax.swing.JComboBox<String> jComboBox_comPort;
     private javax.swing.JComboBox<String> jComboBox_comPortSpeed;
     private javax.swing.JComboBox<String> jComboBox_debug_libs;
     private javax.swing.JComboBox<String> jComboBox_line;
+    private javax.swing.JComboBox<String> jComboBox_lineGraph;
+    private javax.swing.JComboBox<String> jComboBox_valGraph;
     private javax.swing.JFileChooser jFileChooser_file;
     private javax.swing.JFrame jFrame_calCalculator;
     private javax.swing.JLabel jLabel1;
@@ -2862,13 +3142,23 @@ public class ILC_main_form extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel24;
     private javax.swing.JLabel jLabel25;
     private javax.swing.JLabel jLabel26;
+    private javax.swing.JLabel jLabel27;
+    private javax.swing.JLabel jLabel28;
+    private javax.swing.JLabel jLabel29;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel30;
+    private javax.swing.JLabel jLabel31;
+    private javax.swing.JLabel jLabel32;
+    private javax.swing.JLabel jLabel33;
+    private javax.swing.JLabel jLabel34;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
+    private javax.swing.JLabel jLabel_graphCounter;
+    private javax.swing.JLabel jLabel_readValCounter;
     private javax.swing.JList<String> jList_debug_files;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel11;
@@ -2879,6 +3169,7 @@ public class ILC_main_form extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel_PD;
     private javax.swing.JPanel jPanel_connect;
     private javax.swing.JPanel jPanel_debug;
+    private javax.swing.JPanel jPanel_graph;
     private javax.swing.JPanel jPanel_graphs;
     private javax.swing.JPanel jPanel_param_main;
     private javax.swing.JPanel jPanel_script;
@@ -2910,7 +3201,10 @@ public class ILC_main_form extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField_offset;
     private javax.swing.JTextField jTextField_offsetVal;
     private javax.swing.JTextField jTextField_page;
+    private javax.swing.JTextField jTextField_readMultGraph;
     private javax.swing.JTextField jTextField_readPeriod;
+    private javax.swing.JTextField jTextField_readPeriodGraph;
+    private javax.swing.JTextField jTextField_readValGraph;
     private javax.swing.JTextField jTextField_set_val;
     private javax.swing.JTextField jTextField_term_in;
     private javax.swing.JTextField jTextField_zeroVal;

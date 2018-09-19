@@ -355,7 +355,7 @@ public class ILC_device_c {
         payload[1] = (byte) channel;
         payload[2] = (byte) line;
      
-        retVal = port.sendCMD((byte)USBC_CMD_GET_VALUES, payload, 3, 700);
+        retVal = port.sendCMD((byte)USBC_CMD_GET_VALUES, payload, 3, 1000);
 
         retBuf.status = retVal.retStatus;
         
@@ -399,10 +399,11 @@ public class ILC_device_c {
         payload[0] = (byte) calID;
         payload[1] = (byte) channel;
         payload[2] = (byte) line;
+        payload[3] = 4;
         
-        System.arraycopy(data, 0, payload, 2, 4);
+        System.arraycopy(data, 0, payload, 4, 4);
         
-        retVal = port.sendCMD((byte)USBC_CMD_SET_CALIBR, payload, 6, 1000);
+        retVal = port.sendCMD((byte)USBC_CMD_SET_CALIBR, payload, 8, 1000);
         
         if (retVal.retStatus == USBC_RET_OK)
         {
@@ -416,7 +417,7 @@ public class ILC_device_c {
     public boolean assignCalibr()
     {
         Buf_class retVal;
-        retVal = port.sendCMD((byte)USBC_CMD_ASSIGN_CALIBR, null, 0, 2000);
+        retVal = port.sendCMD((byte)USBC_CMD_ASSIGN_CALIBR, null, 0, 5000);
         
         if (retVal.retStatus == USBC_RET_OK)
         {
@@ -430,17 +431,17 @@ public class ILC_device_c {
         port = serialport;
     }
 
-    public byte[] longToBytes(long l) {
-        byte[] result = new byte[8];
-        for (int i = 7; i >= 0; i--) {
+    public byte[] LongToBytes(long l) {
+        byte[] result = new byte[4];
+        for (int i = 0; i < 4; i++) {
             result[i] = (byte) (l & 0xFF);
             l >>= 8;
         }
         return result;
     }
 
-    public int bytesToInt(byte[] bytes) {
-        int result = 0;
+    public long bytesToLong(byte[] bytes) {
+        long result = 0;
         for (int i = 0; i < 4; i++) {
             result <<= 8;
             result |= (bytes[3-i] & 0xFF);
