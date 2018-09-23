@@ -184,6 +184,10 @@ public class ILC_main_form extends javax.swing.JFrame {
         jLabel37 = new javax.swing.JLabel();
         jButton_conv = new javax.swing.JButton();
         jButton_conv1 = new javax.swing.JButton();
+        jSeparator3 = new javax.swing.JSeparator();
+        jLabel38 = new javax.swing.JLabel();
+        jTextField_koefProp = new javax.swing.JTextField();
+        jButton_getKoefProp = new javax.swing.JButton();
         jTabbedPane_tabs = new javax.swing.JTabbedPane();
         jPanel_connect = new javax.swing.JPanel();
         jPanel12 = new javax.swing.JPanel();
@@ -329,9 +333,9 @@ public class ILC_main_form extends javax.swing.JFrame {
             }
         });
 
-        jFrame_calCalculator.setMaximumSize(new java.awt.Dimension(418, 330));
-        jFrame_calCalculator.setMinimumSize(new java.awt.Dimension(418, 330));
-        jFrame_calCalculator.setPreferredSize(new java.awt.Dimension(418, 330));
+        jFrame_calCalculator.setMaximumSize(new java.awt.Dimension(418, 350));
+        jFrame_calCalculator.setMinimumSize(new java.awt.Dimension(418, 350));
+        jFrame_calCalculator.setPreferredSize(new java.awt.Dimension(418, 350));
         jFrame_calCalculator.setResizable(false);
         jFrame_calCalculator.setType(java.awt.Window.Type.POPUP);
 
@@ -402,6 +406,15 @@ public class ILC_main_form extends javax.swing.JFrame {
             }
         });
 
+        jLabel38.setText("Пропорциональный коэффициент");
+
+        jButton_getKoefProp.setText(">>");
+        jButton_getKoefProp.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton_getKoefPropActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jFrame_calCalculatorLayout = new javax.swing.GroupLayout(jFrame_calCalculator.getContentPane());
         jFrame_calCalculator.getContentPane().setLayout(jFrame_calCalculatorLayout);
         jFrame_calCalculatorLayout.setHorizontalGroup(
@@ -409,10 +422,11 @@ public class ILC_main_form extends javax.swing.JFrame {
             .addGroup(jFrame_calCalculatorLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jFrame_calCalculatorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jSeparator3)
                     .addComponent(jSeparator1, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jFrame_calCalculatorLayout.createSequentialGroup()
                         .addGroup(jFrame_calCalculatorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel11, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 252, Short.MAX_VALUE)
+                            .addComponent(jLabel11, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 254, Short.MAX_VALUE)
                             .addComponent(jLabel9, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jLabel10, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -421,18 +435,6 @@ public class ILC_main_form extends javax.swing.JFrame {
                             .addComponent(jTextField_appVal, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton_setZero))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jFrame_calCalculatorLayout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addGroup(jFrame_calCalculatorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jFrame_calCalculatorLayout.createSequentialGroup()
-                                .addComponent(jTextField_koefVal, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButton_getKoefVal))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jFrame_calCalculatorLayout.createSequentialGroup()
-                                .addComponent(jTextField_currAppVal, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButton_setCurrAppVal))
-                            .addComponent(jButton2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jFrame_calCalculatorLayout.createSequentialGroup()
                         .addGroup(jFrame_calCalculatorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLabel16, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -445,7 +447,6 @@ public class ILC_main_form extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton_getOffsetVal))
                     .addComponent(jSeparator2)
-                    .addComponent(jLabel35, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jFrame_calCalculatorLayout.createSequentialGroup()
                         .addComponent(jLabel36)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -457,7 +458,26 @@ public class ILC_main_form extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel37)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextField_convFloat, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jTextField_convFloat, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel35, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jFrame_calCalculatorLayout.createSequentialGroup()
+                        .addComponent(jLabel38, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jTextField_koefProp, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton_getKoefProp))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jFrame_calCalculatorLayout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGroup(jFrame_calCalculatorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jFrame_calCalculatorLayout.createSequentialGroup()
+                                .addComponent(jTextField_koefVal, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jButton_getKoefVal))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jFrame_calCalculatorLayout.createSequentialGroup()
+                                .addComponent(jTextField_currAppVal, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jButton_setCurrAppVal))
+                            .addComponent(jButton2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap())
         );
         jFrame_calCalculatorLayout.setVerticalGroup(
@@ -493,13 +513,18 @@ public class ILC_main_form extends javax.swing.JFrame {
                     .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jTextField_koefVal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton_getKoefVal))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jFrame_calCalculatorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel38, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextField_koefProp, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton_getKoefProp))
+                .addGap(14, 14, 14)
                 .addComponent(jButton2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel35, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(1, 1, 1)
                 .addGroup(jFrame_calCalculatorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jTextField_convFloat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jTextField_convUint, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -507,6 +532,8 @@ public class ILC_main_form extends javax.swing.JFrame {
                     .addComponent(jLabel37, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton_conv)
                     .addComponent(jButton_conv1))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 2, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -1501,7 +1528,7 @@ public class ILC_main_form extends javax.swing.JFrame {
                     .addGroup(jPanel24Layout.createSequentialGroup()
                         .addComponent(jButton_debug_clearList, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton_debug_addLibraries, javax.swing.GroupLayout.PREFERRED_SIZE, 94, Short.MAX_VALUE)
+                        .addComponent(jButton_debug_addLibraries, javax.swing.GroupLayout.DEFAULT_SIZE, 94, Short.MAX_VALUE)
                         .addContainerGap())))
         );
         jPanel24Layout.setVerticalGroup(
@@ -1989,58 +2016,75 @@ public class ILC_main_form extends javax.swing.JFrame {
         terminalAddStr("Данные записаны", colorMsg_msg);
     }//GEN-LAST:event_jButton_writeCalPhaseActionPerformed
 
+    Timer timerCalIO;
+    int channel;
+    int line;
+    
     //Считать основные параметры
     private void jButton_readCalPhaseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_readCalPhaseActionPerformed
-        int channel = jComboBox_chCal.getSelectedIndex();
-        int line = jComboBox_calPhaseChoose.getSelectedIndex();
-        
-        readCal(jTable_calPhase, channel, line);
-        terminalAddStr("Параметры калибровки считаны", colorMsg_good);
-    }//GEN-LAST:event_jButton_readCalPhaseActionPerformed
+//        int channel = jComboBox_chCal.getSelectedIndex();
+//        int line = jComboBox_calPhaseChoose.getSelectedIndex();
+//        
+//        readCal(jTable_calPhase, channel, line);
+//        terminalAddStr("Данные считаны", colorMsg_msg);
 
-    private void readCal(JTable table, int channel, int line) {
-        ILC_device_c.ILC_buf_c retBuf;
-        byte[] longBuf = new byte[4];
-        int tryCounter = 2;
+        readCount = 0;
+        channel = jComboBox_chCal.getSelectedIndex();
+        line = jComboBox_calPhaseChoose.getSelectedIndex();
 
-        for (int i = 0; i < table.getRowCount(); i++) {
-            int calID = Integer.parseInt(table.getValueAt(i, 0).toString());
-
-            tryCounter = 2;
-            while (tryCounter-- >= 0) {
-                
-                retBuf = deviceILC.readCal(calID, channel, line);
-
-                if (retBuf == null) {
-                    terminalAddStr("Проверьте подключение", colorMsg_error);
-                    return;
-                }
-
-                if (retBuf.status == ILC_device_c.USBC_RET_OK) {
-                    if (retBuf.Len == 4) {
-                        System.arraycopy(retBuf.Data, 0, longBuf, 0, longBuf.length);
-                        long val = deviceILC.bytesToLong(longBuf);
-
-                        String str = String.format("0x%08X", val);
-                        table.setValueAt(str, i, 2);
-                        terminalAddStr("Регистр :" + table.getValueAt(i, 1).toString() + " считан", colorMsg_good);
-                        break;
-                    }
-                } else if (retBuf.status == ILC_device_c.USBC_RET_ERROR) {
-                    if (tryCounter == 0)
-                    {
-                        table.setValueAt("ERROR", i, 2);
-                        terminalAddStr(table.getValueAt(i, 1).toString() + " ошибка чтения.", colorMsg_error);
-                    }else{
-                        terminalAddStr(table.getValueAt(i, 1).toString() + " ошибка чтения. Пробуем еще..", colorMsg_error);
-                    }
+        ActionListener listener = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                timerCalIO.stop();
+                readCal(jTable_calPhase, channel, line, readCount);
+                if ((jTable_calPhase.getRowCount()-1) > readCount) {
+                    readCount++;
+                    timerCalIO.start();
+                }else{
+                    terminalAddStr("Регистры считаны***************************************", colorMsg_good);
+                    timerCalIO = null;
                 }
             }
-            
+        };
+
+        readCal(jTable_calPhase, channel, line, readCount);
+        readCount++;
+
+        timerCalIO = new Timer(50, listener);
+        timerCalIO.start();
+    }//GEN-LAST:event_jButton_readCalPhaseActionPerformed
+    
+    private void readCal(JTable table, int channel, int line, int pos) {
+
+        ILC_device_c.ILC_buf_c retBuf;
+        byte[] longBuf = new byte[4];
+
+        int calID = Integer.parseInt(table.getValueAt(pos, 0).toString());
+
+        retBuf = deviceILC.readCal(calID, channel, line);
+
+        if (retBuf.status == ILC_device_c.USBC_RET_OK) {
+            //if (retBuf.Len == 4) {
+                System.arraycopy(retBuf.Data, 0, longBuf, 0, longBuf.length);
+                long val = deviceILC.bytesToLong(longBuf);
+
+                String str = String.format("0x%08X", val);
+                table.setValueAt(str, pos, 2);
+                terminalAddStr("Регистр :" + table.getValueAt(pos, 1).toString() + " считан", colorMsg_good);
+            //}
+        } else if (retBuf.status == ILC_device_c.USBC_RET_ERROR) {
+            table.setValueAt("ERROR", pos, 2);
+            terminalAddStr(table.getValueAt(pos, 1).toString() + " ошибка чтения, пробуем еще...", colorMsg_error);
+            readCal(table, channel, line, pos);
+        }
+        try {
+            Thread.sleep(100);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(ILC_main_form.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }
- 
+
     private void jButton_burst_clearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_burst_clearActionPerformed
         flash_table.setRowCount(0);
     }//GEN-LAST:event_jButton_burst_clearActionPerformed
@@ -2722,11 +2766,36 @@ public class ILC_main_form extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton_writeCalMainActionPerformed
 
     private void jButton_readCalMainActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_readCalMainActionPerformed
-        int channel = jComboBox_chCal.getSelectedIndex();
-        int line = jComboBox_calPhaseChoose.getSelectedIndex();
-        
-        readCal(jTable_calMain, channel, line);
-        terminalAddStr("Параметры калибровки считаны", colorMsg_good);
+//        int channel = jComboBox_chCal.getSelectedIndex();
+//        int line = jComboBox_calPhaseChoose.getSelectedIndex();
+//        
+//        readCal(jTable_calMain, channel, line);
+//        terminalAddStr("Параметры калибровки считаны", colorMsg_good);
+
+        readCount = 0;
+        channel = jComboBox_chCal.getSelectedIndex();
+        line = jComboBox_calPhaseChoose.getSelectedIndex();
+
+        ActionListener listener = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                timerCalIO.stop();
+                readCal(jTable_calMain, channel, line, readCount);
+                if ((jTable_calMain.getRowCount() - 1) > readCount) {
+                    readCount++;
+                    timerCalIO.start();
+                } else {
+                    terminalAddStr("Регистры считаны***************************************", colorMsg_good);
+                    timerCalIO = null;
+                }
+            }
+        };
+
+        readCal(jTable_calMain, channel, line, readCount);
+        readCount++;
+
+        timerCalIO = new Timer(50, listener);
+        timerCalIO.start();
     }//GEN-LAST:event_jButton_readCalMainActionPerformed
 
     private void readValues() {
@@ -2988,10 +3057,19 @@ public class ILC_main_form extends javax.swing.JFrame {
 
         float errorVal = ((float)(currVal - appVal) / currVal);
         int koefVal = (int) Math.round((float)Math.pow(2, 31)*((1/(1+errorVal))-1));
+        float koefProp = appVal/currVal;
+        
+        byte[] bytes = ByteBuffer.allocate(8).putFloat(koefProp).array();
+        
+        final StringBuilder builder = new StringBuilder();
+        for (byte b : bytes) {
+            builder.append(Integer.toString(b, 16));
+        }
+        jTextField_koefProp.setText("0x"+(builder.toString()).toUpperCase());
 
         jTextField_errorVal.setText(String.format("%.8f", errorVal));
         jTextField_offsetVal.setText(String.format("0x%08X", -zeroVal));
-        jTextField_koefVal.setText(String.format("0x%08X", koefVal));
+        jTextField_koefVal.setText(String.format("0x%08X", koefVal)); 
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jTable_calMainMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable_calMainMouseClicked
@@ -3098,6 +3176,14 @@ public class ILC_main_form extends javax.swing.JFrame {
         }
         jTextField_convUint.setText("0x"+(builder.toString()).toUpperCase());
     }//GEN-LAST:event_jButton_conv1ActionPerformed
+
+    private void jButton_getKoefPropActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_getKoefPropActionPerformed
+        int selRow = SelTable.getSelectedRow();
+        if (selRow != -1)
+        {
+            SelTable.setValueAt(jTextField_koefProp.getText(), selRow, 2); 
+        }
+    }//GEN-LAST:event_jButton_getKoefPropActionPerformed
 
     class graphClass {
 
@@ -3233,6 +3319,7 @@ public class ILC_main_form extends javax.swing.JFrame {
     private javax.swing.JButton jButton_devReset1;
     private javax.swing.JButton jButton_devReset2;
     private javax.swing.JButton jButton_flashcopy;
+    private javax.swing.JButton jButton_getKoefProp;
     private javax.swing.JButton jButton_getKoefVal;
     private javax.swing.JButton jButton_getOffsetVal;
     private javax.swing.JButton jButton_openCalMain;
@@ -3305,6 +3392,7 @@ public class ILC_main_form extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel35;
     private javax.swing.JLabel jLabel36;
     private javax.swing.JLabel jLabel37;
+    private javax.swing.JLabel jLabel38;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
@@ -3341,6 +3429,7 @@ public class ILC_main_form extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane8;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
+    private javax.swing.JSeparator jSeparator3;
     private javax.swing.JTabbedPane jTabbedPane_tabs;
     private javax.swing.JTable jTable_calMain;
     private javax.swing.JTable jTable_calPhase;
@@ -3354,6 +3443,7 @@ public class ILC_main_form extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField_count_bytes;
     private javax.swing.JTextField jTextField_currAppVal;
     private javax.swing.JTextField jTextField_errorVal;
+    private javax.swing.JTextField jTextField_koefProp;
     private javax.swing.JTextField jTextField_koefVal;
     private javax.swing.JTextField jTextField_offset;
     private javax.swing.JTextField jTextField_offsetVal;
