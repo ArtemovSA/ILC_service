@@ -98,6 +98,9 @@ public class ILC_device_c {
         
         retVal = port.sendCMD((byte)USBC_CMD_CHANGE_MODE, modeData, 1, 2000);
         
+        if (retVal == null)
+            return false;
+        
         if (retVal.retStatus == USBC_RET_OK)
         {
             return true;
@@ -165,6 +168,9 @@ public class ILC_device_c {
         Buf_class retVal;
         retVal = port.sendCMD((byte)USBC_CMD_SYSTEM_RESET, null, 0, 2000);
         
+        if (retVal == null)
+            return false;
+        
         if (retVal.retStatus == USBC_RET_OK)
         {
             return true;
@@ -197,6 +203,9 @@ public class ILC_device_c {
         System.arraycopy(nameBuf, 0, dataScript, 5, 20);
         
         retVal = port.sendCMD((byte)USBC_CMD_SCRYPT_LOAD, dataScript, 25, 4000);
+        
+        if (retVal == null)
+            return false;
         
         if (retVal.retStatus != USBC_RET_OK)
             return false;
@@ -241,6 +250,9 @@ public class ILC_device_c {
         Buf_class retVal;
         retVal = port.sendCMD((byte)USBC_CMD_SCRYPT_START, null, 0, 1000);
         
+        if (retVal == null)
+            return false;
+        
         if (retVal.retStatus == USBC_RET_OK)
         {
             return true;
@@ -255,6 +267,9 @@ public class ILC_device_c {
         Buf_class retVal;
         retVal = port.sendCMD((byte)USBC_CMD_SCRYPT_STOP, null, 0, 1000);
         
+        if (retVal == null)
+            return false;
+        
         if (retVal.retStatus == USBC_RET_OK)
         {
             return true;
@@ -268,6 +283,9 @@ public class ILC_device_c {
     {
         Buf_class retVal;
         retVal = port.sendCMD((byte)USBC_CMD_SCRYPT_PAUSE, null, 0, 1000);
+        
+        if (retVal == null)
+            return false;
         
         if (retVal.retStatus == USBC_RET_OK)
         {
@@ -289,6 +307,9 @@ public class ILC_device_c {
 
         retBuf.status = retVal.retStatus;
         
+        if (retVal == null)
+            return null;
+        
         if (retVal.retStatus == USBC_RET_OK)
         {
             retBuf.Len = retVal.retData[0];
@@ -309,6 +330,9 @@ public class ILC_device_c {
         
         retVal = port.sendCMD((byte)USBC_CMD_SET_SETTINGS, payload, len+2, 1000);
         
+        if (retVal == null)
+            return false;
+        
         if (retVal.retStatus == USBC_RET_OK)
         {
             return true;
@@ -323,6 +347,9 @@ public class ILC_device_c {
         Buf_class retVal;
         retVal = port.sendCMD((byte)USBC_CMD_ASSIGN_SETTINGS, null, 0, 2000);
         
+        if (retVal == null)
+            return false;
+        
         if (retVal.retStatus == USBC_RET_OK)
         {
             return true;
@@ -336,6 +363,9 @@ public class ILC_device_c {
     {
         Buf_class retVal;
         retVal = port.sendCMD((byte)USBC_CMD_DEFAULT_SETTINGS, null, 0, 2000);
+        
+        if (retVal == null)
+            return false;
         
         if (retVal.retStatus == USBC_RET_OK)
         {
@@ -357,6 +387,9 @@ public class ILC_device_c {
      
         retVal = port.sendCMD((byte)USBC_CMD_GET_VALUES, payload, 3, 1000);
 
+        if (retVal == null)
+            return null;
+            
         retBuf.status = retVal.retStatus;
         
         if (retVal.retStatus == USBC_RET_OK)
@@ -380,6 +413,9 @@ public class ILC_device_c {
      
         retVal = port.sendCMD((byte)USBC_CMD_GET_CALIBR, payload, 3, 700);
 
+        if (retVal == null)
+            return null;
+        
         retBuf.status = retVal.retStatus;
         
         if (retVal.retStatus == USBC_RET_OK)
@@ -405,6 +441,9 @@ public class ILC_device_c {
         
         retVal = port.sendCMD((byte)USBC_CMD_SET_CALIBR, payload, 8, 1000);
         
+        if (retVal == null)
+            return false;
+        
         if (retVal.retStatus == USBC_RET_OK)
         {
             return true;
@@ -418,6 +457,9 @@ public class ILC_device_c {
     {
         Buf_class retVal;
         retVal = port.sendCMD((byte)USBC_CMD_ASSIGN_CALIBR, null, 0, 5000);
+        
+        if (retVal == null)
+            return false;
         
         if (retVal.retStatus == USBC_RET_OK)
         {

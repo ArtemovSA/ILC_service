@@ -201,15 +201,17 @@ public class Serial_port {
     }
     
     //Отправить байты в COM порт
-    public void writeBytes(byte array[], int len) {
+    public int writeBytes(byte array[], int len) {
         byte[] array_toSend = new byte[len];
         System.arraycopy(array, 0, array_toSend, 0, len);
         
         try {
             COM_data.serialPort.writeBytes(array_toSend);
         } catch (SerialPortException ex) {
-            System.out.println(ex);
+            return 0;
         }
+        
+        return 1;
     }
     
     //Отправить байты в COM порт
@@ -253,7 +255,8 @@ public class Serial_port {
         sendData[payloadLen+3] = stop_1;
         sendData[payloadLen+4] = stop_2;
         
-        writeBytes(sendData, payloadLen + 5);
+        if (writeBytes(sendData, payloadLen + 5) == 0)
+            return null;
 
         int try_counter = 0;
         COM_data.packRecive = 0;
